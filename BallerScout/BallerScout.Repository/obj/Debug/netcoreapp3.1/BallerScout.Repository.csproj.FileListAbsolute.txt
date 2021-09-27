@@ -1,0 +1,17 @@
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Repository.deps.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Repository.runtimeconfig.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Repository.runtimeconfig.dev.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Repository.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Repository.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Data.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Entities.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Data.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\bin\Debug\netcoreapp3.1\BallerScout.Entities.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.csprojAssemblyReference.cache
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.AssemblyInfoInputs.cache
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.AssemblyInfo.cs
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.csproj.CopyComplete
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Repository\obj\Debug\netcoreapp3.1\BallerScout.Repository.genruntimeconfig.cache

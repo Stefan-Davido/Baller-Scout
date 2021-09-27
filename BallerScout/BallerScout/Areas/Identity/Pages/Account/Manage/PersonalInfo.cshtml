@@ -1,0 +1,88 @@
+﻿@page
+@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.IDropDownsService DropDownsService
+
+@model PersonalInfoModel
+@{
+    ViewData["Title"] = "Personal Info";
+}
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var position = await DropDownsService.Postition(user.Id);
+    ViewBag.Positions = position;
+
+    var foot = await DropDownsService.Foot(user.Id);
+    ViewBag.Foot = foot;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-6">
+        <div classs="row">
+            <form method="post">
+                <div class="row form-group">
+                    <label asp-for="Input.LastName"></label>
+                    <input asp-for="Input.LastName" class="form-control" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                <div class="row form-group">
+                    <label asp-for="Input.PhoneNumber"></label>
+                    <input asp-for="Input.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Club"></label>
+                    <input asp-for="Input.Club" class="form-control" />
+                    <span asp-validation-for="Input.Club" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Position"></label>
+                    <select asp-for="Input.Position" class="form-control" asp-items="ViewBag.Positions"></select>
+                    <input asp-for="Input.Position" type="text" hidden class="form-control" />
+                    <span asp-validation-for="Input.Position" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Foot"></label>
+                    <select asp-for="Input.Foot" class="form-control" asp-items="ViewBag.Foot"></select>
+                    <input asp-for="Input.Foot" hidden class="form-control" />
+                    <span asp-validation-for="Input.Foot" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.City"></label>
+                    <input asp-for="Input.City" class="form-control" />
+                    <span asp-validation-for="Input.City" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.DateOfBirth"></label>
+                    <input type="date" asp-for="Input.DateOfBirth" class="form-control" />
+                    <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Country"></label>
+                    <input asp-for="Input.Country" class="form-control" />
+                    <span asp-validation-for="Input.Country" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Cityzenship"></label>
+                    <input asp-for="Input.Cityzenship" class="form-control" />
+                    <span asp-validation-for="Input.Cityzenship" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Height"></label>
+                    <input asp-for="Input.Height" class="form-control" />
+                    <span asp-validation-for="Input.Height" class="text-danger"></span>
+                </div>
+                <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

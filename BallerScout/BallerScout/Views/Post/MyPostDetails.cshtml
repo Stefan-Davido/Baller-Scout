@@ -1,0 +1,56 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.IUploadImageService UploadImageService
+
+
+@model BallerScout.Entities.Post
+
+<div class="col-12 text-center p-5">
+    <div class="row d-flex text-center w-75">
+        <img src="~/ProfilePhotos/@Model.UserProfilePhoto" class="profile-img" />
+        @if (UserManager.GetUserId(User) == @Model.UserId)
+        {
+            <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => model.UserName)</a>
+        }
+        else
+        {
+            <a asp-action="UserProfile" asp-controller="User" asp-route-id="@Model.UserId">@Html.DisplayFor(model => model.UserName)</a>
+        }
+    </div>
+    @{
+        var isImage = UploadImageService.IsImage(Model.PhotoUrl);
+    }
+    @if (isImage == true)
+    {
+        <div class="row">
+            <img src="~/PostsPhotos/@Model.PhotoUrl" class="img-fluid w-75" />
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <video id="video" controls width="60%" height="auto">
+                <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/mp4">
+                <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/ogg">
+                @*Your browser does not support the video tag.*@
+            </video>
+        </div>
+    }
+    <div class="row text-center d-flex">
+        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0"><i class="far fa-futbol"></i></button>
+        <span>
+            <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId">
+                @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes
+            </a>
+        </span>
+        <span>@Html.DisplayFor(model => model.DatePostedString)</span>
+    </div>
+    <div class="row text-center d-flex font-weight-normal ">
+        <p>@Html.DisplayFor(model => model.Description)</p>
+    </div>
+</div>
+<div class="row">
+    <a asp-action="AllMyPosts">Back To List</a>
+</div>

@@ -1,0 +1,220 @@
+﻿@using BallerScout.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.IFollowingService FollowingService
+@inject BallerScout.Service.ServiceInterfaces.ILikeService LikeService
+@inject BallerScout.Service.ServiceInterfaces.IUploadImageService UploadImageService
+
+@model BallerScout.Models.ApplicationUserModel
+
+<div class="row">
+    <div class="col-md-4">
+        @if (Model.ImgURL == null)
+        {
+            <img src="~/ProfilePhotos/empty-profile-picture.png" class="img-thumbnail" style="width:250px; height:250px" />
+        }
+        else
+        {
+            <img src="~/ProfilePhotos/@Model.ImgURL" class="img-thumbnail" />
+        }
+    </div>
+    <div class="col-md-8">
+        <h4>@Html.DisplayFor(model => model.FirstName)</h4>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var userId = Model.Id;
+                var signInUser = await UserManager.GetUserAsync(User);
+                var followCheck = FollowingService.FollowCheck(signInUser.Id, Model.Id);
+                <p id="nonePTag">@followCheck</p>
+                <a id="followAndUnfollowBTN" onclick="followAndUnfollow('@userId'); numberOfFollowers('@userId')" class="btn"></a>
+                @*if (followCheck == true)
+                    {
+                        <a id="followButton" asp-action="UserProfile" asp-route-id="@userId" onclick="followAndUnfollow('@userId')" class="btn btn-success">Unfollow</a>
+                    }
+                    else
+                    {
+                        <a id="followButton" asp-action="UserProfile" asp-route-id="@userId" onclick="followAndUnfollow('@userId')" class="btn btn-danger">Follow</a>
+                    }*@
+            }
+            else
+            {
+                <a id="followButton" asp-area="Identity" asp-page="/Account/Login" class="btn btn-danger">Follow</a>
+            }
+        </form>
+        <div>
+            <a asp-route-id="@Model.Id" asp-action="AllFollowings">
+                <label>Followings</label>
+                @Html.DisplayFor(model => model.NumberOfFollowings)
+            </a>
+        </div>
+        <div>
+            <a asp-route-id="@Model.Id" asp-action="AllFollowers">
+                <label>Followers</label>
+                @Html.DisplayFor(model => model.NumberOfFollowers)
+            </a>
+        </div>
+        <div class="d-flex">
+            <p>@Html.DisplayFor(model => model.NumberOfPosts) &nbsp;</p>
+            <lable>posts</lable>
+        </div>
+        <div>
+            <a asp-action="UserExperience"
+               asp-route-id="@Model.Id"
+               class="btn btn-info">
+                Player Experience
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <p>@Html.DisplayFor(model => model.Foot)</p>
+    </div>
+    <div class="col-md-3">
+        <p>@Html.DisplayFor(model => model.Position)</p>
+    </div>
+    <div class="col-md-3">
+        <p>@Html.DisplayFor(model => model.Club)</p>
+    </div>
+    <div class="col-md-3">
+        <p>@Html.DisplayFor(model => model.City)</p>
+    </div>
+</div>
+
+@if (Model.Skills != null)
+{
+    <div class="row bg-info">
+        <div class="col-md-2">
+            <label asp-for="Skills.Defending">Defending</label>
+            <p>@Html.DisplayFor(model => model.Skills.Defending)</p>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Skills.Dribbling">Dribbling</label>
+            <p>@Html.DisplayFor(model => model.Skills.Dribbling)</p>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Skills.Pace">Pace</label>
+            <p>@Html.DisplayFor(model => model.Skills.Pace)</p>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Skills.Passing">Passing</label>
+            <p>@Html.DisplayFor(model => model.Skills.Passing)</p>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Skills.Physical">Physical</label>
+            <p>@Html.DisplayFor(model => model.Skills.Physical)</p>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Skills.Shooting">Shooting</label>
+            <p>@Html.DisplayFor(model => model.Skills.Shooting)</p>
+        </div>
+    </div>
+}
+
+<div class="row">
+    @foreach (var post in Model.Posts)
+    {
+        var userId = post.UserId;
+        var user = await UserManager.FindByIdAsync(userId);
+
+        <div class="col-md-12 border-top text-center p-5">
+            <div class="row d-flex">
+                <img src="~/ProfilePhotos/@post.UserProfilePhoto" class="profile-img" />
+
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var signInUser = await UserManager.GetUserAsync(User);
+
+                    if (UserManager.GetUserId(User) == post.UserId)
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => post.UserName)</a>
+                    }
+                    else
+                    {
+                        <a asp-action="UserProfile" asp-controller="User" asp-route-id="@post.UserId">@Html.DisplayFor(model => post.UserName)</a>
+                    }
+                }
+                else
+                {
+                    <a asp-action="UserProfile" asp-controller="User" asp-route-id="@post.UserId">@Html.DisplayFor(model => post.UserName)</a>
+                }
+            </div>
+            @{
+                var isImage = UploadImageService.IsImage(post.PhotoUrl);
+            }
+            @if (isImage == true)
+            {
+                <div class="row">
+                    <img src="~/PostsPhotos/@post.PhotoUrl" class="img-fluid w-75" />
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <video id="video" controls width="60%" height="auto">
+                        <source src="~/PostsPhotos/@post.PhotoUrl" type="video/mp4">
+                        <source src="~/PostsPhotos/@post.PhotoUrl" type="video/ogg">
+                        @*Your browser does not support the video tag.*@
+                    </video>
+                </div>
+            }
+            <div class="row d-flex">
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    var signInUser = await UserManager.GetUserAsync(User);
+
+                    var like = LikeService.LikeCheck(post.PostId, signInUser.Id);
+
+                    if (like == null)
+                    {
+                        <button id="index-like-Btn" onclick="clickLike(@post.PostId)" class="border-0 btn-danger"><i class="far fa-futbol"></i></button>
+                    }
+                    else
+                    {
+                        <button id="index-like-Btn" onclick="clickLike(@post.PostId)" class="border-0 btn-success"><i class="far fa-futbol"></i></button>
+                    }
+                }
+                else
+                {
+                    <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 btn-danger"><i class="far fa-futbol"></i></a>
+                }
+                <span>
+                    <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@post.PostId">
+                        @Html.DisplayFor(model => post.NumberOfLikes)&nbsp;Likes
+                    </a>
+                </span>
+                <span>@Html.DisplayFor(model => post.DatePostedString)</span>
+            </div>
+            <div class="row d-flex">
+                <p>@Html.DisplayFor(model => post.Description)</p>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/js/Post.js"></script>
+    <script src="~/js/Profile.js"></script>
+}
+<!-- This is for roles -->
+@*@if (ViewContext.HttpContext.User.IsInRole("Player"))
+    {
+        <div class="row">
+            <p>@Html.DisplayFor(model => model.UserName)</p>
+            <p>@Html.DisplayFor(model => model.Position)</p>
+        </div>
+    }
+    else if(ViewContext.HttpContext.User.IsInRole("Menager"))
+    {
+    <div class="row">
+        <p>@Html.DisplayFor(model => model.UserName)</p>
+        <p>@Html.DisplayFor(model => model.Position)</p>
+    </div>
+    }*@
+

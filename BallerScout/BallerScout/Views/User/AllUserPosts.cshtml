@@ -1,0 +1,83 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.ISavedPostService SavedPostService
+@inject BallerScout.Service.ServiceInterfaces.IUploadImageService UploadImageService
+
+@model IEnumerable<BallerScout.Entities.Post>
+@{
+    ViewData["title"] = "MyPosts";
+    var signInUser = await UserManager.GetUserAsync(User);
+}
+
+<div class="row">
+    <a asp-controller="Post" asp-action="AddPost" class="btn btn-primary">Add Post</a>
+</div>
+<div class="row col-12">
+    @foreach (var post in Model)
+    {
+        <div class="col-md-12 border-top text-center p-5">
+            <div class="row d-flex">
+                <img src="~/ProfilePhotos/@post.UserProfilePhoto" class="profile-img" />
+                @if (UserManager.GetUserId(User) == post.UserId)
+                {
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => post.UserName)</a>
+                }
+                else
+                {
+                    <a asp-action="UserProfile" asp-controller="User" asp-route-id="@post.UserId">@Html.DisplayFor(model => post.UserName)</a>
+                }
+            </div>
+            @{
+                var isImage = UploadImageService.IsImage(post.PhotoUrl);
+            }
+            @if (isImage == true)
+            {
+                <div class="row">
+                    <img src="~/PostsPhotos/@post.PhotoUrl" class="img-fluid w-75" />
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    <video id="video" controls width="60%" height="auto">
+                        <source src="~/PostsPhotos/@post.PhotoUrl" type="video/mp4">
+                        <source src="~/PostsPhotos/@post.PhotoUrl" type="video/ogg">
+                        @*Your browser does not support the video tag.*@
+                    </video>
+                </div>
+            }
+            <div class="row d-flex">
+                <div class="col-md-3">
+                    <button id="index-like-Btn" onclick="clickLike(@post.PostId)" class="border-0"><i class="far fa-futbol"></i></button>
+                    <span>@Html.DisplayFor(model => post.NumberOfLikes)&nbsp;Likes</span>
+                </div>
+                <div class="col-md-3">
+                    <span>@Html.DisplayFor(model => post.DatePostedString)</span>
+                </div>
+                <div class="col-md-6 text-right">
+                    @{
+                        var postSavedCheck = SavedPostService.SavedCheck(signInUser.Id, post.PostId);
+                    }
+                    @if (postSavedCheck == true)
+                    {
+                        <button class="btn-danger" onclick="savePost(@post.PostId)"><i class="fas fa-bookmark"></i></button>
+                    }
+                    else
+                    {
+                        <button class="btn-light" onclick="savePost(@post.PostId)"><i class="fas fa-bookmark"></i></button>
+                    }
+                </div>
+            </div>
+            <div class="row d-flex">
+                <p>@Html.DisplayFor(model => post.Description)</p>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts{
+    <script src="~/js/Profile.js"></script>
+    <script src="~/js/Post.js"></script>
+}

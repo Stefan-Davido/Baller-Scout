@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.IFollowingService FollowingService 
+
+@model IEnumerable<BallerScout.Entities.ApplicationUser>
+
+<div class="row">
+    <div class="col-12">
+        @foreach (var user in Model)
+        {
+            var userId = user.Id;
+            var userProfile = await UserManager.FindByIdAsync(userId);
+            var singInUser = await UserManager.GetUserAsync(User);
+
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-3">
+                        <img src="~/ProfilePhotos/@user.ImgURL" class="profile-img" />
+                    </div>
+                    <div class="col-9">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if (UserManager.GetUserId(User) == user.Id)
+                            {
+                                <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => user.UserName)</a>
+                            }
+                            else
+                            {
+                                <a asp-action="UserProfile" asp-controller="User" asp-route-id="@user.Id">@Html.DisplayFor(model => user.UserName)</a>
+                            }
+                        }
+                        else
+                        {
+                            <a asp-action="/Account/Login" asp-area="Identity">@Html.DisplayFor(model => user.UserName)</a>
+                        }
+                    </div>
+            </div>
+        </div>
+         }
+    </div>
+</div>
+
+@section Scripts {
+    @*<script src="~/js/site.js"></script>*@
+    @*<script src="~/js/Post.js"></script>*@
+    <script src="~/js/Search.js"></script>
+}

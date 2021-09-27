@@ -1,0 +1,78 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.ISkillsService _SkillService
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    var skills = _SkillService.GetSkillsByUserId(user.Id);
+}
+
+<h1>SKILLS</h1>
+@if (skills != null)
+{
+    if (user.Position == "GK")
+    {
+        <div class="form-group col-2">
+            <label>Positioning</label>
+            <p class="form-control">@skills.Positioning</p>
+        </div>
+        <div class="form-group col-2">
+            <label>Reflexes</label>
+            <span class="form-control">@skills.Reflexes</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Diving</label>
+            <span class="form-control">@skills.Diving</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Speed</label>
+            <span class="form-control">@skills.Speed</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Kicking</label>
+            <span class="form-control">@skills.Kicking</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Handling</label>
+            <span class="form-control">@skills.Handling</span>
+        </div>
+    }
+    else
+    {
+        <div class="form-group col-2">
+            <label>Dribbling</label>
+            <p class="form-control">@skills.Dribbling</p>
+        </div>
+        <div class="form-group col-2">
+            <label>Shooting</label>
+            <span class="form-control">@skills.Passing</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Shooting</label>
+            <span class="form-control">@skills.Shooting</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Shooting</label>
+            <span class="form-control">@skills.Pace</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Shooting</label>
+            <span class="form-control">@skills.Defending</span>
+        </div>
+        <div class="form-group col-2">
+            <label>Shooting</label>
+            <span class="form-control">@skills.Physical</span>
+        </div>
+    }
+    <div>
+        <a asp-action="EditSkills" asp-route-id="@user.Id" class="btn btn-success">Edit</a>
+    </div>
+}
+else
+{
+    <h1>You Haven't add skills yet</h1>
+    <a asp-action="AddSkills" asp-controller="Skills" class="btn btn-success">Add Skills</a>
+}
+

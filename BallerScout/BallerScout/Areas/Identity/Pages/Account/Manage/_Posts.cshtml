@@ -1,0 +1,29 @@
+﻿@page
+@*@model BallerScout.Areas.Identity.Pages.Account.Manage._PostsModel.*@
+@model IEnumerable<_PostsModel>
+@{
+    ViewData["title"] = "Posts";
+}
+
+<div class="row">
+    <button asp-action="" class="btn btn-primary">Add Post</button>
+    @foreach (var post in Model)
+    {
+        <div class="col-md-5 border-dark">
+            <div class="row d-flex">
+                <img src="~/ProfilePhotos/@post.UserProfilePhoto" class="img-thumbnail w-25"/>
+                <span>@post.UserName</span>
+            </div>
+            <div class="row">
+                <img src="~/PostsPhotos/@post.Image" class="img-fluid w-75"/>
+            </div>
+            <div class="row d-flex">
+                <span>@post.Likes</span>
+                <span>@post.DatePosted</span>
+            </div> 
+            <div class="row d-flex">
+                <p>@post.Description</p>
+            </div>
+        </div>
+    }
+</div>

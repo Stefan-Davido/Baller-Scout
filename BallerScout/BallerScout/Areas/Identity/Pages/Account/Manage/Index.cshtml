@@ -1,0 +1,137 @@
+﻿@page
+
+@using Microsoft.AspNetCore.Identity
+@using BallerScout.Areas.Identity
+@using BallerScout.Areas.Identity.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using BallerScout.Entities
+@inject UserManager<ApplicationUser> UserManager
+
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="row">
+    <div class="col-md-8">
+        <form id="profile-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    @if (Model.ImagePath == null)
+                    {
+                        <img src="~/ProfilePhotos/empty-profile-picture.png" class="img-thumbnail" />
+                    }
+                    else
+                    {
+                        <img src="~/ProfilePhotos/@Model.ImagePath" class="img-thumbnail rounded" />
+                    }
+                </div>
+            </div>
+            <div class="row form-group">
+                <label asp-for="Input.FirstName"></label>
+                <input asp-for="Input.FirstName" class="form-control" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-4 form-group">
+                    <a asp-action="AllFollowings" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)">
+                        <label>Following &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowings)
+                    </a>
+                </div>
+                <div class="col-4 form-group">
+                    <a asp-action="AllFollowers" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)">
+                        <label>Followers &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowers)
+                    </a>
+                </div>
+                <div class="col-4 form-group">
+                    <p>@Html.DisplayFor(model => model.NumberOfPosts) posts</p>
+                    @*<p>posts</p>*@
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <label asp-for="Input.InputImagePath">Change Profile Photo</label>
+                <br />
+                <input class="btn btn-outline-danger" type="file" name="file" />
+                <span asp-validation-for="Input.InputImagePath" class="text-danger"></span>
+            </div>
+            <button id="" type="submit" class="btn btn-primary">Save</button>
+        </form>
+        <hr />
+        <div>
+            @if (Model.SkillsList == null)
+            {
+                <div class="text-center">
+                    <a asp-action="AddSkills" asp-controller="Skills" class="btn-success btn">Add Skills</a>
+                </div>
+            }
+            else if (Model.Position == "GK")
+            {
+                <div class="d-flex">
+                    <div class="col-2 form-group">
+                        <label>Diving</label>
+                        <span class="form-control">@Model.SkillsList.Diving</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Positioning</label>
+                        <span class="form-control">@Model.SkillsList.Positioning</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Reflexes</label>
+                        <span class="form-control">@Model.SkillsList.Reflexes</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Kicking</label>
+                        <span class="form-control">@Model.SkillsList.Kicking</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Speed</label>
+                        <span class="form-control">@Model.SkillsList.Speed</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Handling</label>
+                        <span class="form-control">@Model.SkillsList.Handling</span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex">
+                    <div class="col-2 form-group">
+                        <label>Dribbling</label>
+                        <span class="form-control">@Model.SkillsList.Dribbling</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Pace</label>
+                        <span class="form-control">@Model.SkillsList.Pace</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Passing</label>
+                        <span class="form-control">@Model.SkillsList.Passing</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Physical</label>
+                        <span class="form-control">@Model.SkillsList.Physical</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Shooting</label>
+                        <span class="form-control">@Model.SkillsList.Shooting</span>
+                    </div>
+                    <div class="col-2 form-group">
+                        <label>Defending</label>
+                        <span class="form-control">@Model.SkillsList.Defending</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/JS for Scaffolded/Scaffold.js"></script>
+}

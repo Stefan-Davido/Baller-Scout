@@ -1,0 +1,121 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject BallerScout.Service.ServiceInterfaces.IPlayerHistoryService PlayerHistoryService
+@inject BallerScout.Service.ServiceInterfaces.ISeasonService SeasonService
+@inject BallerScout.Service.ServiceInterfaces.IGameService GameService
+
+<h1>Player history</h1>
+
+<div>
+    <a asp-action="AddExperience" class="btn btn-success">Add Experience</a>
+    <a asp-action="AddTransfer" class="btn btn-info">Add Transfer</a>
+</div>
+<div>
+    <div>
+        @{
+            var playerSeason = SeasonService.GetSeasonsByUserId(UserManager.GetUserId(User));
+            var transfers = PlayerHistoryService.GetPlayerHistoriesByUserId(UserManager.GetUserId(User));
+            var games = GameService.GetGamesByUserId(UserManager.GetUserId(User));
+        }
+        <hr />
+
+        @if (games != null)
+        {
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Season Year</th>
+                        <th>Club</th>
+                        <th>Position</th>
+                        <th>Minutes Played</th>
+                        <th>Versus Club</th>
+                        <th>Goals Scored</th>
+                        <th>Assists</th>
+                        <th>Yellow Cards</th>
+                        <th>Red Cards</th>
+                        <th colspan="2">Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var game in games)
+                {
+                    <tr>
+                        <td>@game.DatePlayedString</td>
+                        <td>@game.Club</td>
+                        <td>@game.PositionPlayed</td>
+                        <td>@game.PlayedMinutes</td>
+                        <td>@game.VersusClub</td>
+                        <td>@game.GoalsScored</td>
+                        <td>@game.Assists</td>
+                        <td>@game.YellowCards</td>
+                        <td>@game.RedCards</td>
+                        <td><a asp-action="EditExperience" asp-route-id="@game.GameId" class="btn btn-secondary">Edit</a></td>
+                        <td><a asp-action="DeleteExperience" asp-route-id="@game.GameId" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                }
+           </table>
+         }
+        <hr />
+
+        @if (playerSeason != null)
+        {
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Season Year</th>
+                        <th>Club</th>
+                        <th>Games Played</th>
+                        <th>Goals Scored</th>
+                        <th>Assists</th>
+                        <th>Yellow Cards</th>
+                        <th>Red Cards</th>
+                    </tr>
+                </thead>
+
+                @foreach (var season in playerSeason)
+                {
+                    <tr>
+                        <td>@season.SeasonYearString</td>
+                        <td>@season.Club</td>
+                        <td>@season.GamesPlayed</td>
+                        <td>@season.GoalsScored</td>
+                        <td>@season.Assists</td>
+                        <td>@season.YellowCards</td>
+                        <td>@season.RedCards</td>
+                    </tr>
+                }
+            </table>
+        }
+        <hr />
+
+        @if (transfers != null)
+        {
+            <table class="table">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th></th>
+                        <th>To</th>
+                        <th>Transfer Type</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                @foreach (var transfer in transfers)
+                {
+                    <tr>
+                        <td>@transfer.TransferDateString</td>
+                        <td>@transfer.FromClub</td>
+                        <td><i class="fa fa-arrow-right"></i></td>
+                        <td>@transfer.ToClub</td>
+                        <td>@transfer.ContractType</td>
+                        <td><a asp-action="EditTransfer" asp-route-id="@transfer.HistoryId" class="btn btn-secondary">Edit</a></td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>

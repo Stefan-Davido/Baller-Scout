@@ -1,0 +1,11 @@
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\bin\Debug\netcoreapp3.1\BallerScout.Entities.deps.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\bin\Debug\netcoreapp3.1\BallerScout.Entities.runtimeconfig.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\bin\Debug\netcoreapp3.1\BallerScout.Entities.runtimeconfig.dev.json
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\bin\Debug\netcoreapp3.1\BallerScout.Entities.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\bin\Debug\netcoreapp3.1\BallerScout.Entities.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.AssemblyInfoInputs.cache
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.AssemblyInfo.cs
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.csproj.CoreCompileInputs.cache
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.pdb
+C:\Users\Dell\source\repos\BallerScout\BallerScout.Entities\obj\Debug\netcoreapp3.1\BallerScout.Entities.genruntimeconfig.cache

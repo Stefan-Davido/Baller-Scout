@@ -1,0 +1,71 @@
+﻿@model BallerScout.Models.GameModel
+
+<div>
+    <h1>Edit Game</h1>
+    <form method="post" class="d-block">
+        <div>
+            <div class="form-group">
+                <label>Date Played</label>
+                <input type="date" asp-for="DatePlayed" />
+                <span asp-validation-for="DatePlayed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Club</label>
+                <input asp-for="Club" disabled="disabled" value="@Html.ViewBag.ClubName"/>
+                <span asp-validation-for="Club"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Position</label>
+                <input asp-for="PositionPlayed" type="text" />
+                <span asp-validation-for="PositionPlayed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Goals</label>
+                <input asp-for="GoalsScored" type="number" />
+                <span asp-validation-for="GoalsScored" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Assists</label>
+                <input type="number" asp-for="Assists" />
+                <span asp-validation-for="Assists" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Minutes played</label>
+                <input type="number" asp-for="PlayedMinutes" />
+                <span asp-validation-for="PlayedMinutes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Red Cards</label>
+                <input type="number" asp-for="RedCards" />
+                <span asp-validation-for="RedCards" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Yellow Cards</label>
+                <input type="number" asp-for="YellowCards" />
+                <span asp-validation-for="YellowCards" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Versus</label>
+                <input type="text" asp-for="VersusClub" />
+                <span asp-validation-for="VersusClub" class="text-danger"></span>
+            </div>
+        </div>
+        <input type="hidden" asp-for="SeasonYear" />
+        <input type="hidden" asp-for="SeasonId" />
+        <input type="hidden" asp-for="SeasonYearString" />
+        <input type="hidden" asp-for="DatePlayed" />
+        <input type="hidden" asp-for="DatePlayedString" />
+        <input type="hidden" asp-for="GameId" />
+        <input type="hidden" asp-for="UserFullName" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="GoalsScoredDecrementInSeason" />
+        <input type="hidden" asp-for="AssistsDecrementInSeason" />
+        <input type="hidden" asp-for="MinutesPlayedDecrementInSeason" />
+        <input type="hidden" asp-for="RedCardsDecrementInSeason" />
+        <input type="hidden" asp-for="YellowCardsDecrementInSeason" />
+        <div asp-validation-summary="All">
+            <input type="submit" value="Save" class="btn btn-success" />
+        </div>
+    </form>
+    <a asp-action="Index">Back to List</a>
+</div>

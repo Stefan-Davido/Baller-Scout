@@ -1,0 +1,101 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using BallerScout.Entities
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model BallerScout.Models.SkillsModel
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+<div>
+    <h1>Edit Skills</h1>
+    <div>
+        <form method="post">
+            @if (user.Position == "GK")
+            {
+                <div class="form-group col-2">
+                    <label>Diving</label>
+                    <span>@Html.DisplayFor(model => model.Diving)</span>
+                    <input asp-for="Diving" type="number" />
+                    <span asp-validation-for="Diving" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Handling</label>
+                    <span>@Html.DisplayFor(model => model.Handling)</span>
+                    <input asp-for="Handling" type="number" />
+                    <span asp-validation-for="Handling" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-2">
+                    <label>Kicking</label>
+                    <span>@Html.DisplayFor(model => model.Kicking)</span>
+                    <input asp-for="Kicking" type="number" />
+                    <span asp-validation-for="Kicking" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-2">
+                    <label>Positioning</label>
+                    <span>@Html.DisplayFor(model => model.Positioning)</span>
+                    <input asp-for="Positioning" type="number" />
+                    <span asp-validation-for="Positioning" class="text-danger"></span>
+                </div>
+                <div class="form-group  col-2">
+                    <label>Reflexes</label>
+                    <span>@Html.DisplayFor(model => model.Reflexes)</span>
+                    <input asp-for="Reflexes" type="number" />
+                    <span asp-validation-for="Reflexes" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Speed</label>
+                    <span>@Html.DisplayFor(model => model.Speed)</span>
+                    <input asp-for="Speed" type="number" />
+                    <span asp-validation-for="Speed" class="text-danger"></span>
+                </div>
+            }
+            else
+            {
+                <div class="form-group col-2">
+                    <label>Dribbling</label>
+                    <span>@Html.DisplayFor(model => model.Dribbling)</span>
+                    <input asp-for="Dribbling" type="number" />
+                    <span asp-validation-for="Dribbling" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Shooting</label>
+                    <span>@Html.DisplayFor(model => model.Shooting)</span>
+                    <input asp-for="Shooting" type="number" />
+                    <span asp-validation-for="Shooting" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Passing</label>
+                    <span>@Html.DisplayFor(model => model.Passing)</span>
+                    <input asp-for="Passing" type="number" />
+                    <span asp-validation-for="Passing" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Pace</label>
+                    <span>@Html.DisplayFor(model => model.Pace)</span>
+                    <input asp-for="Pace" type="number" />
+                    <span asp-validation-for="Pace" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Defending</label>
+                    <span>@Html.DisplayFor(model => model.Defending)</span>
+                    <input asp-for="Defending" type="number" />
+                    <span asp-validation-for="Defending" class="text-danger"></span>
+                </div>
+                <div class="form-group col-2">
+                    <label>Physics</label>
+                    <span>@Html.DisplayFor(model => model.Physical)</span>
+                    <input asp-for="Physical" type="number" />
+                    <span asp-validation-for="Physical" class="text-danger"></span>
+                </div>
+            }
+            <input asp-for="UserFullName" type="hidden" />
+            <input asp-for="UserId" type="hidden" />
+            <input asp-for="SkillStatsId" type="hidden" />
+
+            <input type="submit" class="btn btn-success" value="Save">
+        </form>
+    </div>
+    <a asp-action="Index">Back To List</a>
+</div>

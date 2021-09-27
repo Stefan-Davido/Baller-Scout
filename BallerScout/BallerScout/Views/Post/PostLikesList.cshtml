@@ -1,0 +1,46 @@
+﻿@using BallerScout.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@model IEnumerable<BallerScout.Entities.ApplicationUser>
+
+<div class="row">
+    @if (Model.Count() < 1)
+    {
+        <h2>This Post Doesnt Have Likes Yet</h2>
+    }
+    else
+    {
+    <div class="col-md-12">
+        @foreach (var user in Model)
+        {
+            var userId = user.Id;
+            var userProfile = await UserManager.FindByIdAsync(userId);
+            var singInUser = await UserManager.GetUserAsync(User);
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="~/ProfilePhotos/@user.ImgURL" class="profile-img" />
+                </div>
+                <div class="col-md-8">
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @if (UserManager.GetUserId(User) == user.Id)
+                        {
+                            <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => user.UserName)</a>
+                        }
+                        else
+                        {
+                            <a asp-action="UserProfile" asp-controller="User" asp-route-id="@user.Id">@Html.DisplayFor(model => user.UserName)</a>
+                        }
+                    }
+                    else
+                    {
+                        <a asp-page="/Account/Login" asp-area="Identity">@Html.DisplayFor(model => user.UserName)</a>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+    }
+</div> 
