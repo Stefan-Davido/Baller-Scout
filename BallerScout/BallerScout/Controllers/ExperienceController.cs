@@ -19,6 +19,7 @@ namespace BallerScout.Controllers
         private readonly IGameService _gameService;
         private readonly IDateConverterService _dateConverterService;
         private readonly IDropDownsService _dropDownsService;
+        private readonly IPostService _postService;
 
         public ExperienceController(
             UserManager<ApplicationUser> userManager,
@@ -27,7 +28,8 @@ namespace BallerScout.Controllers
             ISeasonService seasonService,
             IGameService gameService,
             IDateConverterService dateConverterService,
-            IDropDownsService dropDownsService)
+            IDropDownsService dropDownsService,
+            IPostService postService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -36,6 +38,7 @@ namespace BallerScout.Controllers
             _gameService = gameService;
             _dateConverterService = dateConverterService;
             _dropDownsService = dropDownsService;
+            _postService = postService;
         }
 
         public IActionResult Index()
@@ -217,6 +220,22 @@ namespace BallerScout.Controllers
             playerHistory.TransferDateString = playerHistory.TransferDate.ToShortDateString();
 
             _playerHistoryService.AddPlayerHistory(playerHistory);
+
+            var post = new Post();
+            post.DatePosted = playerHistory.TransferDate;
+            post.DatePostedString = playerHistory.TransferDate.ToShortDateString();
+            post.Description =
+            (
+                $" {playerHistory.UserFullName} " +
+                $" is making a history transfer from " +
+                $" {playerHistory.FromClub} to {playerHistory.ToClub} "
+            );
+            post.UserId = playerHistory.UserId;
+            post.UserName = playerHistory.UserFullName;
+            post.UserProfilePhoto = user.ImgURL;
+            post.PhotoUrl = null;
+
+            _postService.AddPost(post);
 
             return RedirectToAction(nameof(Index));
         }

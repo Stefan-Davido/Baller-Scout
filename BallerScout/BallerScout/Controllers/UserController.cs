@@ -49,7 +49,7 @@ namespace BallerScout.Controllers
         public async Task<IActionResult> UserProfile(string Id)
         {
             var user = await _userManager.FindByIdAsync(Id);
-            var allPosts = _postService.GetListOfPostsByUserId(Id);
+            var allPosts = _postService.GetListOfPostsByUserId(Id).OrderByDescending(x => x.DatePosted);
             var numberOfFollowers = _followingService.NumberOfFollowers(Id);
             var numberOfFollowings = _followingService.NumberOfFollowings(Id);
             var skills = _skillsService.GetSkillsByUserId(Id);
@@ -122,7 +122,7 @@ namespace BallerScout.Controllers
         [HttpGet]
         public IActionResult AllUserPosts(string Id)
         {
-            var userPosts = _postService.GetListOfPostsByUserId(Id);
+            var userPosts = _postService.GetListOfPostsByUserId(Id).OrderByDescending(x => x.DatePosted).Reverse();
             return View(userPosts);
         }
 

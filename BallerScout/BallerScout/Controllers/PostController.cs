@@ -44,7 +44,7 @@ namespace BallerScout.Controllers
         public IActionResult AllMyPosts()
         {
             var userId = _userManager.GetUserId(User);
-            var allPosts = _postService.GetListOfPostsByUserId(userId);
+            var allPosts = _postService.GetListOfPostsByUserId(userId).OrderByDescending(x => x.DatePosted).Reverse();
             return View(allPosts);
         }
 
@@ -234,7 +234,7 @@ namespace BallerScout.Controllers
 
         public IActionResult UserSavedPosts(string Id)
         {
-            var allSavedPosts = _postService.GetAllUserSavedPost(Id);
+            var allSavedPosts = _postService.GetAllUserSavedPost(Id).OrderByDescending(x => x.DatePosted);
             return View(allSavedPosts);
         }
     }
