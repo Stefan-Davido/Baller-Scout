@@ -159,7 +159,7 @@ namespace BallerScout.Controllers
             var post = _postService.GetPostById(postId);
             var userPostId = post.UserId;
             var usersPost = await _userManager.FindByIdAsync(userPostId);
-            var signInUserId= _userManager.GetUserId(User);
+            var signInUserId = _userManager.GetUserId(User);
             var signInUser = await _userManager.FindByIdAsync(signInUserId);
 
             var likeCheck = _likeService.LikeCheck(post.PostId, signInUser.Id);

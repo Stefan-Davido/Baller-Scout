@@ -4,8 +4,8 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject BallerScout.Service.ServiceInterfaces.IUploadImageService UploadImageService
 @inject BallerScout.Service.ServiceInterfaces.ISavedPostService SavedPostService
-
-
+@inject BallerScout.Service.ServiceInterfaces.ILikeService LikeService
+ 
 @model BallerScout.Models.PostModel
 
 <div class="container">
@@ -52,7 +52,21 @@
 
                 <div class="row d-flex">
                     <div class="col-md-3">
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0"><i class="far fa-futbol"></i></button>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
+
+                            if (like == null)
+                            {
+                                <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-danger"><i class="far fa-futbol"></i></button> }
+                            else
+                            {
+                                <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-success"><i class="far fa-futbol"></i></button> }
+                        }
+                        else
+                        {
+                            <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 btn-danger"><i class="far fa-futbol"></i></a>
+                        }
                         <span>
                             <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId">
                                 @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes
@@ -77,19 +91,8 @@
                     </div>
                 </div>
                 <div class="row d-flex">
-                    <p>@Html.DisplayFor(model => model.Description)</p>
-                </div>
-                <div class="row justify-content-center">
-                    <div class="col-3">
-                        <a asp-action="MyPostEdit" asp-route-id="@Model.PostId" class="btn btn-secondary">Edit</a>
-                    </div>
-                    <div class="col-3">
-                        <a asp-action="MyPostDetails" asp-route-id="@Model.PostId" class="btn btn-info">Details</a>
-                    </div>
-                    <div class="col-3">
-                        <a asp-action="MyPostDelete" asp-route-id="@Model.PostId" class="btn btn-danger">Delete</a>
-                    </div>
-                </div>
+                    <input type="text" asp-for="@Model.Description" value="@Model.Description" >
+                </div> 
             }
             else
             {
@@ -100,7 +103,21 @@
                 </div>
                 <div class="row">
                     <div class="col-md-2 text-left ">
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0"><i class="far fa-futbol"></i></button>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
+
+                            if (like == null)
+                            {
+                                <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-danger"><i class="far fa-futbol"></i></button> }
+                            else
+                            {
+                                <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-success"><i class="far fa-futbol"></i></button> }
+                        }
+                        else
+                        {
+                            <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 btn-danger"><i class="far fa-futbol"></i></a>
+                        }
                         <span>
                             <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId">
                                 @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes
