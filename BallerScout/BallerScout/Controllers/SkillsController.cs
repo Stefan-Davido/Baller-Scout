@@ -1,4 +1,5 @@
-﻿using BallerScout.Data;
+﻿using AutoMapper;
+using BallerScout.Data;
 using BallerScout.Entities;
 using BallerScout.Models;
 using BallerScout.Service.ServiceInterfaces;
@@ -14,6 +15,7 @@ namespace BallerScout.Controllers
     public class SkillsController : Controller
     {
         private readonly ISkillsService _skillsService;
+        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly DataContext _dataContext;
@@ -22,11 +24,13 @@ namespace BallerScout.Controllers
             ISkillsService skillsService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            DataContext dataContext)
+            DataContext dataContext,
+            IMapper mapper)
         {
             _skillsService = skillsService;
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
             _dataContext = dataContext;
         }
 
@@ -57,23 +61,9 @@ namespace BallerScout.Controllers
         public IActionResult EditSkills(string id)
         {
             var skills = _skillsService.GetSkillsByUserId(id);
-
             SkillsModel skillsModel = new SkillsModel();
-            skillsModel.SkillStatsId = skills.SkillStatsId;
-            skillsModel.UserId = skills.UserId;
-            skillsModel.UserFullName = skills.UserFullName;
-            skillsModel.Kicking = skills.Kicking;
-            skillsModel.Handling = skills.Handling;
-            skillsModel.Positioning = skills.Positioning;
-            skillsModel.Reflexes = skills.Reflexes;
-            skillsModel.Speed = skills.Speed;
-            skillsModel.Diving = skills.Diving;
-            skillsModel.Dribbling = skills.Dribbling;
-            skillsModel.Pace = skills.Pace;
-            skillsModel.Passing = skills.Passing;
-            skillsModel.Physical = skills.Physical;
-            skillsModel.Shooting = skills.Shooting;
-            skillsModel.Defending = skills.Defending;
+
+            skillsModel = _mapper.Map<Skills, SkillsModel>(skills);
 
             return View(skillsModel);
         }
@@ -81,21 +71,8 @@ namespace BallerScout.Controllers
         [HttpPost]
         public IActionResult EditSkills(SkillsModel skillsModel)
         {
-            var skills = _skillsService.GetSkillsById(skillsModel.SkillStatsId);
-
-            skills.UserFullName = skillsModel.UserFullName;
-            skills.Kicking = skillsModel.Kicking;
-            skills.Handling = skillsModel.Handling;
-            skills.Positioning = skillsModel.Positioning;
-            skills.Reflexes = skillsModel.Reflexes;
-            skills.Speed = skillsModel.Speed;
-            skills.Diving = skillsModel.Diving;
-            skills.Dribbling = skillsModel.Dribbling;
-            skills.Pace = skillsModel.Pace;
-            skills.Passing = skillsModel.Passing;
-            skills.Physical = skillsModel.Physical;
-            skills.Shooting = skillsModel.Shooting;
-            skills.Defending = skillsModel.Defending;
+            Skills skills = new Skills();
+            skills = _mapper.Map<SkillsModel, Skills>(skillsModel);
 
             _skillsService.UpdateSkills(skills);
 

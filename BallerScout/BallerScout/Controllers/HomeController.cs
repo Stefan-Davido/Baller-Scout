@@ -1,4 +1,6 @@
-﻿using BallerScout.Entities;
+﻿using AutoMapper;
+using BallerScout.Entities;
+using BallerScout.Mapping;
 using BallerScout.Models;
 using BallerScout.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Identity;

@@ -126,7 +126,7 @@ namespace BallerScout.Service
             return positionSelectList;
         }
 
-        public List<string> PlayerPosition()
+        private  List<string> PlayerPosition()
         {
             List<string> playerPosition = new List<string>();
             playerPosition.Add("GK-Goalkeeper");
@@ -151,7 +151,7 @@ namespace BallerScout.Service
             return playerPosition;
         }
 
-        public List<PositionObject> PositionObject()
+        private List<PositionObject> PositionObject()
         {          
             List<PositionObject> positionObjects = new List<PositionObject>();
             var positionList = PlayerPosition();

@@ -1,4 +1,6 @@
-﻿@model BallerScout.Models.GameModel
+﻿@inject BallerScout.Service.ServiceInterfaces.IDropDownsService DropDownsService
+
+@model BallerScout.Models.GameModel
 
 <div>
     <h1>Edit Game</h1>
@@ -11,12 +13,13 @@
             </div>
             <div class="form-group">
                 <label>Club</label>
-                <input asp-for="Club" disabled="disabled" value="@Html.ViewBag.ClubName"/>
+                <input disabled="disabled" value="@Model.Club"/>
                 <span asp-validation-for="Club"  class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label>Position</label>
-                <input asp-for="PositionPlayed" type="text" />
+                <label asp-for="PositionPlayed"></label>
+                <select asp-for="PositionPlayed" class="form-control" asp-items="@Html.ViewBag.Positions"></select>
+                <input asp-for="PositionPlayed" type="text" hidden class="form-control" />
                 <span asp-validation-for="PositionPlayed" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -63,6 +66,7 @@
         <input type="hidden" asp-for="MinutesPlayedDecrementInSeason" />
         <input type="hidden" asp-for="RedCardsDecrementInSeason" />
         <input type="hidden" asp-for="YellowCardsDecrementInSeason" />
+        <input type="hidden" asp-for="Club" />
         <div asp-validation-summary="All">
             <input type="submit" value="Save" class="btn btn-success" />
         </div>

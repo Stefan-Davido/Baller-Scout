@@ -1,5 +1,8 @@
+using AutoMapper;
 using BallerScout.Data;
 using BallerScout.Entities;
+using BallerScout.Mapping;
+using BallerScout.Models;
 using BallerScout.Repository;
 using BallerScout.Repository.RepositoryInterfaces;
 using BallerScout.Service;
@@ -63,6 +66,9 @@ namespace BallerScout
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IDateConverterService, DateConverterService>();
             services.AddTransient<IDropDownsService, DropDownsService>();
+
+            services.AddAutoMapper(typeof(MapperProfile));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

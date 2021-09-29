@@ -1,5 +1,7 @@
-﻿using BallerScout.Data;
+﻿using AutoMapper;
+using BallerScout.Data;
 using BallerScout.Entities;
+//using BallerScout.Mapping;
 using BallerScout.Models;
 using BallerScout.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Http;
@@ -23,6 +25,7 @@ namespace BallerScout.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly DataContext _dataContext;
+        private readonly IMapper _mapper;
 
         public PostController(IPostService postService,
             ILikeService likeService,
@@ -30,7 +33,8 @@ namespace BallerScout.Controllers
             IUploadImageService uploadImageService,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            DataContext dataContext)
+            DataContext dataContext,
+            IMapper mapper)
         {
             _postService = postService;
             _likeService = likeService;
@@ -39,12 +43,13 @@ namespace BallerScout.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _dataContext = dataContext;
+            _mapper = mapper;
         }
 
         public IActionResult AllMyPosts()
         {
             var userId = _userManager.GetUserId(User);
-            var allPosts = _postService.GetListOfPostsByUserId(userId).OrderByDescending(x => x.DatePosted).Reverse();
+            var allPosts = _postService.GetListOfPostsByUserId(userId);
             return View(allPosts);
         }
 
@@ -61,19 +66,17 @@ namespace BallerScout.Controllers
             {
                 var user = await _userManager.GetUserAsync(User);
                 _uploadImageService.UploadPostImage(file);
-                var DT = DateTime.Now;
-                var date = new DateTime(DT.Year, DT.Month, DT.Day);
 
-                var post = new Post();
-                post.Description = postModel.Description;
-                post.DatePosted = date;
+                var post = new Post();               
+                post.DatePosted = DateTime.Now;
+                post.DatePostedString = DateTime.Now.ToShortDateString();
                 post.PhotoUrl = postModel.PhotoUrl;
+                post.Description = postModel.Description;
                 post.NumberOfLikes = 0;
                 post.UserId = user.Id;
                 post.UserName = user.UserName;
                 post.UserProfilePhoto = user.ImgURL;
-                post.PhotoUrl = file.FileName;
-                post.DatePostedString = post.DatePosted.ToShortDateString();
+                post.PhotoUrl = file.FileName;              
               
                 _postService.AddPost(post);
                 user.NumberOfPosts += 1;
@@ -93,32 +96,17 @@ namespace BallerScout.Controllers
         {
             var post = _postService.GetPostById(id);
             PostModel postModel = new PostModel();
-            postModel.PostId = post.PostId;
-            postModel.UserId = post.UserId;
-            postModel.UserName = post.UserName;
-            postModel.UserProfilePhoto = post.UserProfilePhoto;
-            postModel.PhotoUrl = post.PhotoUrl;
-            postModel.NumberOfLikes = post.NumberOfLikes;
-            postModel.Description = post.Description;
-            postModel.DatePosted = post.DatePosted;
+
+            postModel = _mapper.Map<Post, PostModel>(post);
 
             return View(postModel);
         }
 
         [HttpPost]
         public IActionResult MyPostEdit(PostModel postModel)
-        {
-            var post = _postService.GetPostById(postModel.PostId);
-
-            post.PostId = postModel.PostId;
-            post.UserId = postModel.UserId;
-            post.UserName = postModel.UserName;
-            post.UserProfilePhoto = postModel.UserProfilePhoto;
-            post.PhotoUrl = postModel.PhotoUrl;
-            post.NumberOfLikes = postModel.NumberOfLikes;
-            post.Description = postModel.Description;
-            post.DatePosted = postModel.DatePosted;
-            post.DatePostedString = post.DatePosted.ToShortDateString();
+        {        
+            var post = new Post();
+            post = _mapper.Map<PostModel, Post>(postModel);
 
             _postService.UpdatePost(post);
             return RedirectToAction(nameof(AllMyPosts));
@@ -132,7 +120,6 @@ namespace BallerScout.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "admin")]
         public IActionResult MyPostDelete(int id)
         {
             var post = _postService.GetPostById(id);
@@ -140,7 +127,6 @@ namespace BallerScout.Controllers
         }
 
         [HttpPost, ActionName("MyPostDelete")]
-        //[Authorize(Roles = "admin")]
         public async Task<IActionResult> DeleteComfirmed(int id)
         {
             var post = _postService.GetPostById(id);

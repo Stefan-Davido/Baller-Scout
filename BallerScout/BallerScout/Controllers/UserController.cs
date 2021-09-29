@@ -1,4 +1,5 @@
-﻿using BallerScout.Data;
+﻿using AutoMapper;
+using BallerScout.Data;
 using BallerScout.Entities;
 using BallerScout.Models;
 using BallerScout.Service.ServiceInterfaces;
@@ -19,6 +20,7 @@ namespace BallerScout.Controllers
         private readonly IGameService _gameService;
         private readonly IPlayerHistoryService _playerHistoryService;
         private readonly ISeasonService _seasonService;
+        private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly DataContext _dataContext;
@@ -32,6 +34,7 @@ namespace BallerScout.Controllers
             IGameService gameService,
             IPlayerHistoryService playerHistoryService,
             ISeasonService seasonService,
+            IMapper mapper,
             DataContext dataContext)
         {
             _postService = postService;
@@ -42,6 +45,7 @@ namespace BallerScout.Controllers
             _gameService = gameService;
             _seasonService = seasonService;
             _playerHistoryService = playerHistoryService;
+            _mapper = mapper;
             _dataContext = dataContext;
         }
 
@@ -55,26 +59,10 @@ namespace BallerScout.Controllers
             var skills = _skillsService.GetSkillsByUserId(Id);
 
             ApplicationUserModel userModel = new ApplicationUserModel();
-            userModel.Id = user.Id;
-            userModel.Email = user.Email;
-            userModel.UserName = user.UserName;
-            userModel.Club = user.Club;
-            userModel.City = user.City;
-            userModel.Country = user.Country;
-            userModel.Cityzenship = user.Cityzenship;
-            userModel.DateOfBirth = user.DateOfBirth;
-            userModel.FirstName = user.FirstName;
-            userModel.LastName = user.LastName;
-            userModel.ImgURL = user.ImgURL;
-            userModel.Foot = user.Foot;
-            userModel.Position = user.Position;
-            userModel.Age = user.Age;
-            userModel.About = user.About;
-            userModel.Height = user.Height;
+            userModel = _mapper.Map<ApplicationUser, ApplicationUserModel>(user);
+
             userModel.NumberOfFollowings = numberOfFollowings;
-            userModel.NumberOfFollowers = numberOfFollowers;
-            userModel.PhoneNumber = user.PhoneNumber;            
-            userModel.UserIFollowId = user.Id;
+            userModel.NumberOfFollowers = numberOfFollowers;          
             userModel.DateCreated = DateTime.Now;
             userModel.Posts = allPosts;
             userModel.NumberOfPosts = allPosts.Count();
@@ -128,24 +116,15 @@ namespace BallerScout.Controllers
 
         public async Task<IActionResult> AllFollowings(string Id)
         {
-            var result = _followingService.GetFollowingListByUserId(Id);
+            var followingList = _followingService.GetFollowingListByUserId(Id);
             List<ApplicationUserModel> models = new List<ApplicationUserModel>();
 
-            foreach (var item in result)
+            foreach (var followingUser in followingList)
             {
-                var userModel = new ApplicationUserModel();
-                var user = await _userManager.FindByIdAsync(item.UserIFollowId);
-                var userId = await _userManager.GetUserIdAsync(user);
-
-                userModel.Id = userId;
-                userModel.FirstName = user.FirstName;
-                userModel.LastName = user.LastName;
-                userModel.UserName = user.UserName;
-                userModel.Email = user.Email;
-                userModel.ImgURL = user.ImgURL;
-                userModel.Foot = user.Foot;
-                userModel.Position = user.Position;
-
+                ApplicationUserModel userModel = new ApplicationUserModel();
+                var user = await _userManager.FindByIdAsync(followingUser.UserIFollowId);
+                userModel = _mapper.Map<ApplicationUser, ApplicationUserModel>(user);
+                
                 models.Add(userModel);
             }
 
@@ -180,15 +159,8 @@ namespace BallerScout.Controllers
 
             foreach (var follower in allFollowers)
             {
-                var userModel = new ApplicationUserModel();
-                userModel.Id = follower.Id;
-                userModel.FirstName = follower.FirstName;
-                userModel.LastName = follower.LastName;
-                userModel.UserName = follower.UserName;
-                userModel.Email = follower.Email;
-                userModel.ImgURL = follower.ImgURL;
-                userModel.Foot = follower.Foot;
-                userModel.Position = follower.Position;
+                ApplicationUserModel userModel = new ApplicationUserModel();
+                userModel = _mapper.Map<ApplicationUser, ApplicationUserModel>(follower);
 
                 models.Add(userModel);
             }

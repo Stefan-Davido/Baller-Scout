@@ -46,7 +46,7 @@ namespace BallerScout.Service
         public IEnumerable<Post> AllPosts()
         {
             var result = _postRepository.GetAllPosts();
-            result = result.OrderBy(x => x.DatePosted.TimeOfDay).Reverse();
+            result = result.OrderByDescending(x => x.DatePosted);
             return result;
         }
 
@@ -69,7 +69,7 @@ namespace BallerScout.Service
         public IEnumerable<Post> GetListOfPostsByUserId(string Id)
         {
             var myPosts = from p in AllPosts() select p;
-            myPosts = myPosts.Where(s => s.UserId == Id).OrderByDescending(x => x.DatePosted.TimeOfDay).Reverse().AsEnumerable();
+            myPosts = myPosts.Where(s => s.UserId == Id).OrderByDescending(x => x.DatePosted.TimeOfDay).AsEnumerable();
 
             return myPosts;
         }
@@ -89,7 +89,7 @@ namespace BallerScout.Service
                 }
             }
 
-            var result = usersIFollowPosts.OrderBy(x => x.DatePosted.Day).Reverse();
+            var result = usersIFollowPosts.OrderByDescending(x => x.DatePosted.Day);
             return result.AsEnumerable();
         }
 

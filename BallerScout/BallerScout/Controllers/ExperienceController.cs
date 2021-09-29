@@ -1,4 +1,5 @@
-﻿using BallerScout.Entities;
+﻿using AutoMapper;
+using BallerScout.Entities;
 using BallerScout.Models;
 using BallerScout.Service.ServiceInterfaces;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,7 @@ namespace BallerScout.Controllers
         private readonly IDateConverterService _dateConverterService;
         private readonly IDropDownsService _dropDownsService;
         private readonly IPostService _postService;
+        private readonly IMapper _mapper;
 
         public ExperienceController(
             UserManager<ApplicationUser> userManager,
@@ -29,7 +31,8 @@ namespace BallerScout.Controllers
             IGameService gameService,
             IDateConverterService dateConverterService,
             IDropDownsService dropDownsService,
-            IPostService postService)
+            IPostService postService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +42,7 @@ namespace BallerScout.Controllers
             _dateConverterService = dateConverterService;
             _dropDownsService = dropDownsService;
             _postService = postService;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -92,27 +96,12 @@ namespace BallerScout.Controllers
         }
 
         [HttpGet]
-        public IActionResult EditExperience(int id)
+        public async Task<IActionResult> EditExperience(int id)
         {
             Game game = _gameService.GetGameById(id);
-
             GameModel gameModel = new GameModel();
-            gameModel.GameId = game.GameId;
-            gameModel.UserId = game.UserId;
-            gameModel.SeasonId = game.SeasonId;
-            gameModel.UserFullName = game.UserFullName;
-            gameModel.Club = game.Club;
-            gameModel.VersusClub = game.VersusClub;
-            gameModel.Assists = game.Assists;
-            gameModel.GoalsScored = game.GoalsScored;
-            gameModel.RedCards = game.RedCards;
-            gameModel.YellowCards = game.YellowCards;
-            gameModel.SeasonYear = game.SeasonYear;
-            gameModel.SeasonId = game.SeasonId;
-            gameModel.SeasonYearString = game.SeasonYearString;
-            gameModel.PlayedMinutes = game.PlayedMinutes;
-            gameModel.DatePlayed = game.DatePlayed;
-            gameModel.DatePlayedString = game.DatePlayedString;
+            gameModel = _mapper.Map<Game, GameModel>(game);
+
             gameModel.GoalsScoredDecrementInSeason = game.GoalsScored;
             gameModel.AssistsDecrementInSeason = game.Assists;
             gameModel.YellowCardsDecrementInSeason = game.YellowCards;
@@ -127,8 +116,8 @@ namespace BallerScout.Controllers
                 gameModel.MinutesPlayedDecrementInSeason = 0;
             }
 
-            var clubName = _playerHistoryService.GetCurrentClubByUserId(game.UserId);
-            ViewBag.ClubName = clubName;
+            var positions = await _dropDownsService.Postition(game.UserId);
+            ViewBag.Positions = positions;
 
             return View(gameModel);
         }
@@ -136,25 +125,10 @@ namespace BallerScout.Controllers
         [HttpPost]
         public IActionResult EditExperience(GameModel gameModel)
         {
-            Game game = _gameService.GetGameById(gameModel.GameId);
+            Game game = new Game();
+            game = _mapper.Map<GameModel, Game>(gameModel);
+
             Season season = _seasonService.GetSeasonById(gameModel.SeasonId);
-
-            game.GameId = gameModel.GameId;
-            game.UserId = gameModel.UserId;
-            game.UserFullName = gameModel.UserFullName;
-            game.Club = gameModel.Club;
-            game.VersusClub = gameModel.VersusClub;
-            game.Assists = gameModel.Assists;
-            game.GoalsScored = gameModel.GoalsScored;
-            game.RedCards = gameModel.RedCards;
-            game.YellowCards = gameModel.YellowCards;
-            game.SeasonYear = gameModel.SeasonYear;
-            game.SeasonId = gameModel.SeasonId;
-            game.SeasonYearString = gameModel.SeasonYearString;
-            game.PlayedMinutes = gameModel.PlayedMinutes;
-            game.DatePlayed = gameModel.DatePlayed;
-            game.DatePlayedString = gameModel.DatePlayedString;
-
             UpdateSeasonWithEditedGame(season, gameModel);
 
             _gameService.UpdateGame(game);
@@ -222,12 +196,12 @@ namespace BallerScout.Controllers
             _playerHistoryService.AddPlayerHistory(playerHistory);
 
             var post = new Post();
-            post.DatePosted = playerHistory.TransferDate;
-            post.DatePostedString = playerHistory.TransferDate.ToShortDateString();
+            post.DatePosted = DateTime.Now;
+            post.DatePostedString = DateTime.Now.ToShortDateString();
             post.Description =
             (
                 $" {playerHistory.UserFullName} " +
-                $" is making a history transfer from " +
+                $" is making a historic transfer from " +
                 $" {playerHistory.FromClub} to {playerHistory.ToClub} "
             );
             post.UserId = playerHistory.UserId;
@@ -371,6 +345,7 @@ namespace BallerScout.Controllers
             season.GamesPlayed += gameModel.PlayedMinutes;
             season.GoalsScored += gameModel.GoalsScored;
             season.Assists += gameModel.Assists;
+
             if (gameModel.YellowCards == 2)
             {
                 season.RedCards = 1;
