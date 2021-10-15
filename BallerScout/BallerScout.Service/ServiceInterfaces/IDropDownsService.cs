@@ -10,5 +10,6 @@ namespace BallerScout.Service.ServiceInterfaces
     {
         public Task<List<SelectListItem>> Postition(string userId);
         public Task<List<SelectListItem>> Foot(string userId);
+        public List<SelectListItem> TransferType(int transferId);
     }
 }

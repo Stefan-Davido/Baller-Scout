@@ -9,133 +9,185 @@
 
 @model BallerScout.Entities.Post
 
-<div class="col-12 text-center p-5">
-    <div class="row d-flex text-center w-75">
-        <img src="~/ProfilePhotos/@Model.UserProfilePhoto" class="profile-img" />
-        @if (UserManager.GetUserId(User) == @Model.UserId)
-        {
-            <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => model.UserName)</a>
+<div class="row border-section section-bgc" id="Posts">
+    <div class="col-12">
+        @{
+            var userId = Model.UserId;
+            var user = await UserManager.FindByIdAsync(userId);
         }
-        else
-        {
-            <a asp-action="UserProfile" asp-controller="User" asp-route-id="@Model.UserId">@Html.DisplayFor(model => model.UserName)</a>
-        }
+        <div class="row mt-2 posts-padding post-frame">
+            <div class="col-12">
+                <div class="row d-flex post-user-section">
+                    <div class="col-2 text-center">
+                        <img src="~/ProfilePhotos/@Model.UserProfilePhoto" class="profile-img" />
+                    </div>
+                    <div class="col-10 pl-3rem-sm">
+                        <div class="row">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var signInUser = await UserManager.GetUserAsync(User);
+
+                                if (UserManager.GetUserId(User) == Model.UserId)
+                                {
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => model.UserName)</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="UserProfile" asp-controller="User" asp-route-id="@Model.UserId">@Html.DisplayFor(model => model.UserName)</a>
+                                }
+                            }
+                            else
+                            {
+                                <a asp-action="UserProfile" asp-controller="User" asp-route-id="@Model.UserId">@Html.DisplayFor(model => model.UserName)</a>
+                            }
+                        </div>
+                        @if (Model.UserPosition != null && Model.UserClub != null)
+                        {
+                            <div class="row">
+                                <span>@Html.DisplayFor(model => model.UserPosition) in @Html.DisplayFor(model => model.UserClub)</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+                @if (Model.PhotoUrl != null)
+                {
+                    var isImage = UploadImageService.IsImage(Model.PhotoUrl);
+
+                    if (isImage == true)
+                    {
+                        <div class="row bg-white text-center justify-content-center">
+                            <div class="col-9">
+                                <img src="~/PostsPhotos/@Model.PhotoUrl" decoding="auto" class="post-image" />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row bg-white text-center justify-content-center">
+                            <video id="video" controls decoding="auto" class="post-image">
+                                <!-- <video id="video" controls style="width:60%; height:auto"> -->
+                                <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/mp4">
+                                <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/ogg">
+                                <!-- Your browser does not support the video tag. -->
+                            </video>
+                        </div>
+                    }
+                    <div class="row d-flex post-bottom-section">
+                        <div class="">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
+
+                                if (like == null)
+                                {
+                                    <span id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 like-btn post-fontSize"><i class="far fa-futbol"></i>&nbsp;</span>
+                                }
+                                else
+                                {
+                                    <span id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 like-btn-clicked  post-fontSize"><i class="far fa-futbol"></i>&nbsp;</span>
+                                }
+                            }
+                            else
+                            {
+                                <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 like-btn post-fontSize"><i class="far fa-futbol"></i>&nbsp;</a>
+                            }
+                            <span>
+                                <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId" class="post-fontSize see-likes">
+                                    @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes&nbsp;&nbsp;
+                                </a>
+                            </span>
+                        </div>
+                        <div class="">
+                            <span class="post-fontSize">@Html.DisplayFor(model => model.DatePostedString)&nbsp;&nbsp;</span>
+                        </div>
+                        <div class="">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+
+                                var postSavedCheck = SavedPostService.SavedCheck(UserManager.GetUserId(User), Model.PostId);
+
+                                @if (postSavedCheck == true)
+                                {
+                                    <span class="like-btn-clicked post-fontSize border-0" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark "></i>&nbsp;</span>
+                                }
+                                else
+                                {
+                                    <span class="like-btn post-fontSize border-0" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i>&nbsp;</span>
+                                }
+                            }
+                            else
+                            {
+                                <a id="" asp-area="Identity" asp-page="/Account/Login" class="border-0 like-btn post-fontSize"><i class="fas fa-bookmark"></i>&nbsp;</a>
+                            }
+
+                        </div>
+                        <div class="col-12 d-flex border-top border-white mt-1">
+                            <p class="post-fontSize font-weight-bold m-0">@Html.DisplayFor(model => model.Description)</p>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row bg-white">
+                        <span class="post-transfer">@Html.DisplayFor(model => model.Description)</span>
+                    </div>
+                    <div class="row d-flex post-bottom-section">
+                        <div class="">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
+
+                                if (like == null)
+                                {
+                                    <span id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 like-btn post-fontSize"><i class="far fa-futbol"></i>&nbsp;</span>
+                                }
+                                else
+                                {
+                                    <span id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 like-btn-clicked  post-fontSize"><i class="far fa-futbol"></i>&nbsp;</span>
+                                }
+                            }
+                            else
+                            {
+                                <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 like-btn post-fontSize"><i class="far fa-futbol"></i>&nbsp;</a>
+                            }
+                            <span>
+                                <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId" class="post-fontSize see-likes">
+                                    @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes&nbsp;&nbsp;
+                                </a>
+                            </span>
+                        </div>
+                        <div class="">
+                            <span class="post-fontSize">@Html.DisplayFor(model => model.DatePostedString)&nbsp;&nbsp;</span>
+                        </div>
+                        <div class="">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+
+                                var postSavedCheck = SavedPostService.SavedCheck(UserManager.GetUserId(User), Model.PostId);
+
+                                @if (postSavedCheck == true)
+                                {
+                                    <span class="like-btn-clicked post-fontSize border-0" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark "></i>&nbsp;</span>
+                                }
+                                else
+                                {
+                                    <span class="like-btn post-fontSize border-0" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i>&nbsp;</span>
+                                }
+                            }
+                            else
+                            {
+                                <a id="" asp-area="Identity" asp-page="/Account/Login" class="border-0 like-btn post-fontSize"><i class="fas fa-bookmark"></i>&nbsp;</a>
+                            }
+
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
     </div>
-    @if (Model.PhotoUrl != null)
-    {
-
-        var isImage = UploadImageService.IsImage(Model.PhotoUrl);
-
-        if (isImage == true)
-        {
-            <div class="row">
-                <img src="~/PostsPhotos/@Model.PhotoUrl" class="img-fluid w-75" />
-            </div>
-        }
-        else
-        {
-            <div class="row">
-                <video id="video" controls style="width:60%; height:auto">
-                    <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/mp4">
-                    <source src="~/PostsPhotos/@Model.PhotoUrl" type="video/ogg">
-                    @*Your browser does not support the video tag.*@
-                </video>
-            </div>
-        }
-
-        <div class="row d-flex">
-            <div class="col-md-3">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
-
-                    if (like == null)
-                    {
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-danger"><i class="far fa-futbol"></i></button> }
-                    else
-                    {
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-success"><i class="far fa-futbol"></i></button> }
-                }
-                else
-                {
-                    <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 btn-danger"><i class="far fa-futbol"></i></a>
-                }
-                <span>
-                    <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId">
-                        @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes
-                    </a>
-                </span>
-            </div>
-            <div class="col-md-3">
-                <span>@Html.DisplayFor(model => model.DatePostedString)</span>
-            </div>
-            <div class="col-md-6 text-right">
-                @{
-                    var postSavedCheck = SavedPostService.SavedCheck(UserManager.GetUserId(User), Model.PostId);
-                }
-                @if (postSavedCheck == true)
-                {
-                    <button class="btn-danger" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i></button>
-                }
-                else
-                {
-                    <button class="btn-light" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i></button>
-                }
-            </div>
-        </div>
-        <div class="row d-flex">
-            <p>@Html.DisplayFor(model => model.Description)</p>
-        </div>       
-    }
-    else
-    {
-        <div class="row">
-            <div class="text-left form-control">
-                <h5>@Html.DisplayFor(model => model.Description)</h5>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2 text-left ">
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    var like = LikeService.LikeCheck(Model.PostId, UserManager.GetUserId(User));
-
-                    if (like == null)
-                    {
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-danger"><i class="far fa-futbol"></i></button> }
-                    else
-                    {
-                        <button id="index-like-Btn" onclick="clickLike(@Model.PostId)" class="border-0 btn-success"><i class="far fa-futbol"></i></button> }
-                }
-                else
-                {
-                    <a id="index-like-Btn" asp-area="Identity" asp-page="/Account/Login" class="border-0 btn-danger"><i class="far fa-futbol"></i></a>
-                }
-                <span>
-                    <a asp-action="PostLikesList" asp-controller="Post" asp-route-postid="@Model.PostId">
-                        @Html.DisplayFor(model => model.NumberOfLikes)&nbsp;Likes
-                    </a>
-                </span>
-            </div>
-            <div class="col-md-2 text-left ">
-                <span>@Html.DisplayFor(model => model.DatePostedString)</span>
-            </div>
-            <div class="col-md-8 text-right">
-                @{
-                    var postSavedCheck = SavedPostService.SavedCheck(UserManager.GetUserId(User), Model.PostId);
-                }
-                @if (postSavedCheck == true)
-                {
-                    <button class="btn-danger" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i></button>
-                }
-                else
-                {
-                    <button class="btn-light" onclick="savePost(@Model.PostId)"><i class="fas fa-bookmark"></i></button>
-                }
-            </div>
-        </div>
-    }
+    <div class="row p-2 pl-5">
+        <a asp-action="AllMyPosts">Back To List</a>
+    </div>
 </div>
-<div class="row">
-    <a asp-action="AllMyPosts">Back To List</a>
-</div>
+

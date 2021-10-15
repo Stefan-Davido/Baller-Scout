@@ -2,74 +2,78 @@
 
 @model BallerScout.Models.GameModel
 
-<div>
-    <h1>Edit Game</h1>
-    <form method="post" class="d-block">
-        <div>
-            <div class="form-group">
-                <label>Date Played</label>
-                <input type="date" asp-for="DatePlayed" />
-                <span asp-validation-for="DatePlayed" class="text-danger"></span>
+<div class="row section-bgc border-section">
+    <div class="col-12 border-bottom">
+        <span class="section-description ml-3">Edit Game</span>
+    </div>
+    <div class="col-12">
+        <form method="post" class="d-block mt-2 post-frame mb-2">
+            <div>
+                <div class="form-group">
+                    <label class="control-label">Date Played</label>
+                    <input class="form-control" type="date" asp-for="DatePlayed" />
+                    <span asp-validation-for="DatePlayed" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Club</label>
+                    <input class="form-control" disabled="disabled" value="@Model.Club" />
+                    <span asp-validation-for="Club" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="PositionPlayed"></label>
+                    <select asp-for="PositionPlayed" class="form-control" asp-items="@Html.ViewBag.Positions"></select>
+                    <input asp-for="PositionPlayed" type="text" hidden class="form-control" />
+                    <span asp-validation-for="PositionPlayed" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Goals</label>
+                    <input class="form-control" asp-for="GoalsScored" type="number" />
+                    <span asp-validation-for="GoalsScored" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Assists</label>
+                    <input class="form-control" type="number" asp-for="Assists" />
+                    <span asp-validation-for="Assists" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Minutes played</label>
+                    <input class="form-control" type="number" asp-for="PlayedMinutes" />
+                    <span asp-validation-for="PlayedMinutes" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Red Cards</label>
+                    <input class="form-control" type="number" asp-for="RedCards" />
+                    <span asp-validation-for="RedCards" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Yellow Cards</label>
+                    <input class="form-control" type="number" asp-for="YellowCards" />
+                    <span asp-validation-for="YellowCards" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Versus</label>
+                    <input class="form-control" type="text" asp-for="VersusClub" />
+                    <span asp-validation-for="VersusClub" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label>Club</label>
-                <input disabled="disabled" value="@Model.Club"/>
-                <span asp-validation-for="Club"  class="text-danger"></span>
+            <input type="hidden" asp-for="SeasonYear" />
+            <input type="hidden" asp-for="SeasonId" />
+            <input type="hidden" asp-for="SeasonYearString" />
+            <input type="hidden" asp-for="DatePlayed" />
+            <input type="hidden" asp-for="DatePlayedString" />
+            <input type="hidden" asp-for="GameId" />
+            <input type="hidden" asp-for="UserFullName" />
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="GoalsScoredDecrementInSeason" />
+            <input type="hidden" asp-for="AssistsDecrementInSeason" />
+            <input type="hidden" asp-for="MinutesPlayedDecrementInSeason" />
+            <input type="hidden" asp-for="RedCardsDecrementInSeason" />
+            <input type="hidden" asp-for="YellowCardsDecrementInSeason" />
+            <input type="hidden" asp-for="Club" />
+            <div class="row">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a asp-action="Index" class="ml-3">Back to List</a>
             </div>
-            <div class="form-group">
-                <label asp-for="PositionPlayed"></label>
-                <select asp-for="PositionPlayed" class="form-control" asp-items="@Html.ViewBag.Positions"></select>
-                <input asp-for="PositionPlayed" type="text" hidden class="form-control" />
-                <span asp-validation-for="PositionPlayed" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Goals</label>
-                <input asp-for="GoalsScored" type="number" />
-                <span asp-validation-for="GoalsScored" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Assists</label>
-                <input type="number" asp-for="Assists" />
-                <span asp-validation-for="Assists" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Minutes played</label>
-                <input type="number" asp-for="PlayedMinutes" />
-                <span asp-validation-for="PlayedMinutes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Red Cards</label>
-                <input type="number" asp-for="RedCards" />
-                <span asp-validation-for="RedCards" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Yellow Cards</label>
-                <input type="number" asp-for="YellowCards" />
-                <span asp-validation-for="YellowCards" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label>Versus</label>
-                <input type="text" asp-for="VersusClub" />
-                <span asp-validation-for="VersusClub" class="text-danger"></span>
-            </div>
-        </div>
-        <input type="hidden" asp-for="SeasonYear" />
-        <input type="hidden" asp-for="SeasonId" />
-        <input type="hidden" asp-for="SeasonYearString" />
-        <input type="hidden" asp-for="DatePlayed" />
-        <input type="hidden" asp-for="DatePlayedString" />
-        <input type="hidden" asp-for="GameId" />
-        <input type="hidden" asp-for="UserFullName" />
-        <input type="hidden" asp-for="UserId" />
-        <input type="hidden" asp-for="GoalsScoredDecrementInSeason" />
-        <input type="hidden" asp-for="AssistsDecrementInSeason" />
-        <input type="hidden" asp-for="MinutesPlayedDecrementInSeason" />
-        <input type="hidden" asp-for="RedCardsDecrementInSeason" />
-        <input type="hidden" asp-for="YellowCardsDecrementInSeason" />
-        <input type="hidden" asp-for="Club" />
-        <div asp-validation-summary="All">
-            <input type="submit" value="Save" class="btn btn-success" />
-        </div>
-    </form>
-    <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
 </div>

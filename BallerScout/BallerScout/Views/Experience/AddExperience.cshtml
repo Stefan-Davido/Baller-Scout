@@ -1,61 +1,62 @@
 ﻿@model BallerScout.Entities.Game
 
-<div>
-    <h1>Add Experience</h1>
-
-    <div>
-        <form method="post" class="d-block">
-            <div >
+<div class="row border-section section-bgc">
+    <div class="col-12 border-bottom">
+        <span class="section-description ml-3">Add Experience</span>
+    </div>
+    <div class="col-12 mt-2">
+        <form method="post" class="d-block post-frame">
+            <div>
                 <div class="form-group">
-                    <span>Year</span>
-                    <input type="date" asp-for="DatePlayed" />
+                    <label class="control-label">Year</label>
+                    <input type="date" asp-for="DatePlayed" class="form-control" />
                     <span asp-validation-for="DatePlayed" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Club</span>
-                    <input asp-for="Club" disabled="disabled" type="text" value="@Html.ViewBag.ClubName" />
+                    <label class="control-label">Club</label>
+                    <input asp-for="Club" class="form-control" disabled="disabled" type="text" value="@Html.ViewBag.ClubName" />
                 </div>
                 <div class="form-group">
-                    <span>Position Played</span>
+                    <label class="control-label">Position Played</label>
                     <select asp-for="PositionPlayed" class="form-control" asp-items="ViewBag.Positions"></select>
                     <input asp-for="PositionPlayed" type="text" hidden class="form-control" />
                     <span asp-validation-for="PositionPlayed" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Goals</span>
-                    <input asp-for="GoalsScored" type="number" />
+                    <label class="control-label">Goals</label>
+                    <input asp-for="GoalsScored" type="number" class="form-control" />
                     <span asp-validation-for="GoalsScored" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Assists</span>
-                    <input type="number" asp-for="Assists" />
+                    <label class="control-label">Assists</label>
+                    <input type="number" asp-for="Assists" class="form-control" />
                     <span asp-validation-for="Assists" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Minutes played</span>
-                    <input type="number" asp-for="PlayedMinutes" />
+                    <label class="control-label">Minutes played</label>
+                    <input type="number" asp-for="PlayedMinutes" class="form-control" />
                     <span asp-validation-for="PlayedMinutes" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Red Cards</span>
-                    <input type="number" asp-for="RedCards" />
+                    <label class="control-label">Red Cards</label>
+                    <input type="number" asp-for="RedCards" class="form-control" />
                     <span asp-validation-for="RedCards" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <span>Yellow Cards</span>
-                    <input type="number" asp-for="YellowCards" />
+                    <label class="control-label">Yellow Cards</label>
+                    <input type="number" asp-for="YellowCards" class="form-control" />
                     <span asp-validation-for="YellowCards" class="text-danger"></span>
-                </div>  
+                </div>
                 <div class="form-group">
-                    <span>Versus</span>
-                    <input type="text" asp-for="VersusClub" />
+                    <label class="control-label">Versus</label>
+                    <input type="text" asp-for="VersusClub" class="form-control" />
                     <span asp-validation-for="VersusClub" class="text-danger"></span>
                 </div>
             </div>
-            @*<div asp-validation-summary="All">*@
+            <div class="col-12">
+                <a asp-action="Index" class="ml-3">Back To List</a>
                 <input type="submit" value="Save" class="btn btn-success" />
-            @*</div>*@
-        </form>
-        <a asp-action="Index">Back To List</a>
+            </div>
+        </form>      
     </div>
 </div>

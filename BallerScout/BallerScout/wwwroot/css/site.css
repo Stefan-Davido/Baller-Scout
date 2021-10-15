@@ -1,16 +1,243 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
+html {
+    scroll-behavior: smooth;
+}
+
+.section-bgc {
+    background-color:#eeeeee;
+}
+
+.section-description {
+    font-weight: 700 !important;
+    font-size: 22px;
+    padding: 0.3rem;
+    color: #4d4d4d;
+}
+
+.border-section {
+    border: 1px solid #e8e4dc;
+    border-radius: 10px;
+    margin-top: 1rem;
+    /*margin-bottom: 1rem;*/
+}
 
 .profile-img{
-    width:70px !important;
-    height: 70px !important;
+    width:50px !important;
+    height: 50px !important;
     border-radius:50% !important;
 }
 
-a.navbar-brand {
+.color-red{
+    color:red !important;
+}
+
+.user-profile-img {
+    width: 43%;
+    height: 75% !important;
+    border-radius: 60% !important;
+    vertical-align:central;
+    padding-top:15px;
+    padding-bottom:15px;
+    margin-top:30px;
+    margin-bottom:auto;
+}
+
+.route-style {
+    color: #4d4d4d;
+    text-decoration: none !important;
+    font-weight: 500;
+    padding: 5px;
+}
+
+.route-style :hover {
+    transition: 0.5s ease-in-out !important;
+    /*color: #d7232b !important;*/
+    color: #17a2b8 !important;
+    text-decoration: none !important;
+    border-bottom: 1px solid #17a2b8;
+    /*border-radius: 5px;*/
+    padding-left: 5px;
+    padding-right: 5px;
+    font-weight: 500;
+}
+
+.profile-route-action {
+    color: #4d4d4d;
+    text-decoration: none !important;
+}
+
+.profile-route-action:hover {
+    transition: 0.5s ease-in-out;
+    color: #1CB6E0 !important;
+    text-decoration: none !important;
+    font-weight: 800;
+}
+
+/* ***** POST CSS ***** */
+.post-frame {
+    border: 1px solid #e8e4dc;
+    border-radius: 10px;
+    margin: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.post-user-section {
+    border: 2px solid white;
+    border-radius: 10px 10px 0px 0px;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.post-bottom-section {
+    border: 2px solid white;
+    border-radius: 0px 0px 10px 10px;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.posts-padding {
+    padding-left: 4rem;
+    padding-right: 4rem;
+}
+
+.post-image {
+    max-width: 100%;
+    border-radius: 5px;
+    object-fit: fill;
+    max-height: 550px;
+}
+
+.like-btn{
+    color:black;
+    padding-left: 5px;
+}
+.like-btn :hover{
+    transition: 0.4s ease-in-out;
+    color:red;
+    box-shadow:rgba(0,0,0,0.4);
+}
+
+.like-btn-clicked {
+    padding-left: 5px;
+    color: red;
+}
+
+.like-btn-clicked:hover {
+    transition: 0.4s ease-in-out;
+    color: black;
+    box-shadow: rgba(0,0,0,0.4);
+}
+
+.see-likes {
+    color:black;
+    font-weight:500;
+}
+
+.see-likes:hover {
+    color: black;
+    text-decoration-line: underline;
+}
+
+.post-fontSize {
+    font-size: 18px !important;
+}
+
+.post-transfer {
+    font-size: 21px;
+    font-weight: 700;
+    padding-left: 10px;
+}
+
+/* PROFILE CSS */
+
+.menu-btn {
+    width: 100% !important;
+    background-color: #1CB6E0 !important;
+    color: white !important;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem !important;
+    border: none;
+    outline-color: transparent;
+}
+
+.menu-btn:focus {
+    border: transparent;
+    outline-color: transparent;
+}
+
+.drop-menu-item {
+    margin-top: 0.2rem;
+    color: white;
+    background-color: #8db7e6;
+    border: 1px solid #8db7e6;
+    border-radius: 5px;
+    outline-color: transparent;
+}
+
+.drop-menu-item:hover {
+    transition: 0.4s ease-in-out;
+    background-color: #1CB6E0;
+    color: white !important;
+}
+
+    /* MORE CSS */
+
+.form-control.input-btn {
+    height:max-content !important;
+}
+
+.input-btn::-webkit-file-upload-button {
+    color: white !important;
+    display: inline-block !important;
+    background: #1CB6E0 !important;
+    border: none !important;
+    padding: 7px 15px !important;
+    font-weight: 700 !important;
+    border-radius: 3px !important;
+    white-space: nowrap !important;
+    cursor: pointer !important;
+    font-size: 10pt !important;
+    outline-color: transparent;
+}
+
+.input-btn:hover {
+    transition: 0.6s ease-in-out !important;
+    background: #77d0e8 !important;
+    color: white !important;
+}
+
+a .navbar-brand {
     white-space: normal;
     text-align: center;
     word-break: break-all;
+}   
+
+/* ***** SEARCH ***** */
+
+.search-btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.search-input {
+    border: 1px solid #17a2b8;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    outline-color: #17a2b8
+}
+
+.search-input:focus {
+    border: 1px solid #17a2b8 !important;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;;
 }
 
 /* Provide sufficient contrast against white background */
@@ -79,4 +306,36 @@ body {
 .btnFollowing{
     background-color: green;
     color: black;
+}
+
+.profileImgOnPost {
+    border-radius:50%;
+    width:40px;
+    height:auto;
+}
+
+
+/* ***** SMALL DEVICE ***** */
+
+@media (max-width:576px) {
+
+    .user-profile-img {
+        width: 100% !important;
+        height: 55% !important;
+    }
+
+    .posts-padding {
+        padding-left: 0rem; 
+        padding-right: 0rem;
+    }
+
+    .post-frame {
+        margin: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .pl-3rem-sm {
+        padding-left: 3rem;
+    }
 }

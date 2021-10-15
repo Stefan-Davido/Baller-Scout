@@ -4,19 +4,53 @@
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
-    <li class="nav-item"><a class="nav-link" asp-action="AllMyPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">My Posts</a></li>
-    <li class="nav-item"><a class="nav-link" asp-page="./PersonalInfo">Personal Info</a></li>
-    <li class="nav-item"><a class="nav-link" asp-action="UserSavedPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">Saved Posts</a></li>
-    <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Skills">Skills</a></li>
-    <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Experience">Experience</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
-    @if (hasExternalLogins)
-    {
-        <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
-    }
-    <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
-    <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
-</ul>
+@*<ul class="nav nav-pills flex-column post-frame ml-2">
+        <li class="nav-item"><a class="nav-link @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+        <li class="nav-item"><a class="nav-link" asp-action="AllMyPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">My Posts</a></li>
+        <li class="nav-item"><a class="nav-link" asp-page="./PersonalInfo">Personal Info</a></li>
+        <li class="nav-item"><a class="nav-link" asp-action="UserSavedPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">Saved Posts</a></li>
+        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" asp-action="Index" asp-controller="Experience">Experience</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+        @if (hasExternalLogins)
+        {
+            <li id="external-logins" class="nav-item"><a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+        }
+        <li class="nav-item"><a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+        <li class="nav-item"><a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+    </ul>*@
+
+<div class=" mt-1">
+    <div id="accordion" class="">
+        <div classs="">
+            <div class="" id="headingOne">
+                <button class=" menu-btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Menu
+                </button>
+            </div>
+            <div id="collapseOne" class="collapse " aria-labelledby="headingOne" data-parent="#accordion">                
+                <div class="row">
+                    <div class="col-12">
+                        <ul style="list-style:none; background-color:transparent; padding:0;">
+                            <li class="nav-item"><a class="nav-link drop-menu-item @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item" asp-action="AllMyPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">My Posts</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item" asp-page="./PersonalInfo">Personal Info</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item" asp-action="UserSavedPosts" asp-controller="Post" asp-route-id="@UserMenager.GetUserId(User)">Saved Posts</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item" asp-action="Index" asp-controller="Skills">Skills</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item" asp-action="Index" asp-controller="Experience">Experience</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a></li>
+                            @if (hasExternalLogins)
+                            {
+                                <li id="external-logins" class="nav-item"><a id="external-login drop-menu-item" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext)" asp-page="./ExternalLogins">External logins</a></li>
+                            }
+                            <li class="nav-item"><a class="nav-link drop-menu-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a></li>
+                            <li class="nav-item"><a class="nav-link drop-menu-item @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a></li>
+                        </ul>
+                    </div>
+                </div>               
+            </div>
+        </div>
+    </div>
+</div>

@@ -213,7 +213,6 @@ C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Post\PostLikesList.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Post\UserSavedPosts.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Search\Search.cshtml.g.cs
-C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Search\SearchedUsers.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LoginPartial.cshtml.g.cs
@@ -238,3 +237,11 @@ C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Balle
 C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\User\UserExperience.cshtml.g.cs
 C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\AutoMapper.dll
 C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\MailKit.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\MimeKit.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\NETCore.MailKit.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\SmtpServer.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\bin\Debug\netcoreapp3.1\System.IO.Pipelines.dll
+C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Home\VerifyEmail.cshtml.g.cs
+C:\Users\Dell\source\repos\BallerScout\BallerScout\obj\Debug\netcoreapp3.1\Razor\Views\Home\CheckEmail.cshtml.g.cs

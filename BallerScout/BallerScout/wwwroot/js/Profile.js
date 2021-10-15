@@ -78,5 +78,21 @@ function numberOfFollowers(userId) {
     });
 }
 
+// ***** SEE MORE INFO *****
 
+const INFOSTATS = document.getElementById("infoStats");
+if (INFOSTATS != null) {
+    INFOSTATS.style.display = "none";
+    $('#infoStatsBtn').click(function () {
+        $("#infoStats").toggle();
+    }) 
+};
+
+// ***** SEE CONTACTS *****
+const CONTACTS = document.getElementById("contacts");
+CONTACTS.style.display = 'none';
+
+$("#contactsBtn").click(function () {
+    $("#contacts").toggle();
+});
     

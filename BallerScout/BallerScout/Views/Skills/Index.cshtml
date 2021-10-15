@@ -9,70 +9,83 @@
     var skills = _SkillService.GetSkillsByUserId(user.Id);
 }
 
-<h1>SKILLS</h1>
-@if (skills != null)
-{
-    if (user.Position == "GK")
-    {
-        <div class="form-group col-2">
-            <label>Positioning</label>
-            <p class="form-control">@skills.Positioning</p>
-        </div>
-        <div class="form-group col-2">
-            <label>Reflexes</label>
-            <span class="form-control">@skills.Reflexes</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Diving</label>
-            <span class="form-control">@skills.Diving</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Speed</label>
-            <span class="form-control">@skills.Speed</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Kicking</label>
-            <span class="form-control">@skills.Kicking</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Handling</label>
-            <span class="form-control">@skills.Handling</span>
-        </div>
-    }
-    else
-    {
-        <div class="form-group col-2">
-            <label>Dribbling</label>
-            <p class="form-control">@skills.Dribbling</p>
-        </div>
-        <div class="form-group col-2">
-            <label>Shooting</label>
-            <span class="form-control">@skills.Passing</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Shooting</label>
-            <span class="form-control">@skills.Shooting</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Shooting</label>
-            <span class="form-control">@skills.Pace</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Shooting</label>
-            <span class="form-control">@skills.Defending</span>
-        </div>
-        <div class="form-group col-2">
-            <label>Shooting</label>
-            <span class="form-control">@skills.Physical</span>
-        </div>
-    }
-    <div>
-        <a asp-action="EditSkills" asp-route-id="@user.Id" class="btn btn-success">Edit</a>
+<div class="row section-bgc border-section">
+    <div class="col-12 border-bottom mt-1 mb-1">
+        <span class="ml-3 section-description mt-2 mb-2">Skills</span>
     </div>
-}
-else
-{
-    <h1>You Haven't add skills yet</h1>
-    <a asp-action="AddSkills" asp-controller="Skills" class="btn btn-success">Add Skills</a>
-}
+    <div class="col-12">
+        <div class="row post-frame mb-2">
+            @if (skills != null)
+            {
+                if (user.Position == "GK")
+                {
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="control-label">Positioning</label>
+                            <span class="form-control">@skills.Positioning</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Reflexes</label>
+                            <span class="form-control">@skills.Reflexes</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Diving</label>
+                            <span class="form-control">@skills.Diving</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Speed</label>
+                            <span class="form-control">@skills.Speed</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Kicking</label>
+                            <span class="form-control">@skills.Kicking</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Handling</label>
+                            <span class="form-control">@skills.Handling</span>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="control-label">Dribbling</label>
+                            <span class="form-control">@skills.Dribbling</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shooting</label>
+                            <span class="form-control">@skills.Passing</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shooting</label>
+                            <span class="form-control">@skills.Shooting</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shooting</label>
+                            <span class="form-control">@skills.Pace</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shooting</label>
+                            <span class="form-control">@skills.Defending</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Shooting</label>
+                            <span class="form-control">@skills.Physical</span>
+                        </div>
+                    </div>
+                }
+                <div class="col-12">
+                    <a asp-action="EditSkills" asp-route-id="@user.Id" class="btn btn-success">Edit</a>
+                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="ml-3">Back To Profile</a>
+                </div>
+            }
+            else
+            {
+                <span class="section-description ml-3">You Haven't add skills yet</span>
+                <a asp-action="AddSkills" asp-controller="Skills" class="btn btn-success">Add Skills</a>
 
+            }
+        </div>
+    </div>
+</div>

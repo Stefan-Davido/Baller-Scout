@@ -176,6 +176,8 @@ namespace BallerScout.Controllers
         public async Task<IActionResult> AddTransfer()
         {
             var user = await _userManager.GetUserAsync(User);
+            var contractType = _dropDownsService.TransferType(0);
+            ViewBag.TransferType = contractType;
             var clubName = _playerHistoryService.GetCurrentClubByUserId(user.Id);
             ViewBag.ClubName = clubName;
 
@@ -218,6 +220,8 @@ namespace BallerScout.Controllers
         public IActionResult EditTransfer(int id)
         {
             var playerHistory = _playerHistoryService.GetPlayerHistoryById(id);
+            var contractType = _dropDownsService.TransferType(id);
+            ViewBag.TransferType = contractType;
             return View(playerHistory);
         } 
         

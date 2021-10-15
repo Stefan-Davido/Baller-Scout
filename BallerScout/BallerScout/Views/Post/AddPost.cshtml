@@ -4,19 +4,31 @@
     ViewData["title"] = "Posts";
 }
 
-<div class="col-md-8 border-dark">
-    <div class="row">
-        <form method="post" enctype="multipart/form-data">
-            <label>Upload Your Photo</label>
-            <div class="row mt-2">
-                <input type="file" name="file" />
-            </div>         
-            <div class="row">
-                <label asp-for="Description">Write Your Description</label>
-                <input type="text" asp-for="Description" class="form-control" />
+<div class="row border-section section-bgc">
+    <div class="col-12">
+        <div class="row border-bottom">
+            <span class=" section-description pl-5">Share your Achivment</span>
+        </div>
+        <div class="row mt-2 posts-padding post-frame">
+            <div class="col-12">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row mt-1 ">
+                        <label>Upload Photo/Video</label>
+                        <input type="file" name="file" class="input-btn form-control" />
+                    </div>
+                    <div class="row mt-2">
+                        <label asp-for="Description">Write Your Description</label>
+                        <input type="text" asp-for="Description" class="form-control" />
+                    </div>
+                    <div class="row mt-1">
+                        <button id="uploadPhoto" type="submit" class="btn btn-info pl-5 pr-5 mb-2">Post</button>
+                    </div>
+                </form>
             </div>
-            <button id="uploadPhoto" type="submit" class="btn btn-primary btn-block">Post</button>
-        </form>
+        </div>
+    </div>
+    <div class="row">
+        <a asp-page="/Account/Menage/Index" class="ml-5" asp-area="Identity">Back To Profile</a>
     </div>
 </div>
 

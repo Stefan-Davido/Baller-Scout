@@ -76,6 +76,8 @@ namespace BallerScout.Controllers
                 post.UserId = user.Id;
                 post.UserName = user.UserName;
                 post.UserProfilePhoto = user.ImgURL;
+                post.UserClub = user.Club;
+                post.UserPosition = user.Position;
                 post.PhotoUrl = file.FileName;              
               
                 _postService.AddPost(post);

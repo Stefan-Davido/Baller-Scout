@@ -21,6 +21,8 @@ namespace BallerScout.Entities
         public Like Like { get; set; }
         public int NumberOfLikes { get; set; }
         public SavedPost SavedPost { get; set; }
+        public string UserPosition { get; set; }
+        public string UserClub { get; set; }
 
         public virtual ICollection<ApplicationUser> User { get; set; }
     }

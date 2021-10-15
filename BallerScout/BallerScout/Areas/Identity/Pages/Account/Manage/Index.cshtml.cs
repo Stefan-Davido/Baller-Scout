@@ -50,11 +50,13 @@ namespace BallerScout.Areas.Identity.Pages.Account.Manage
         public int NumberOfFollowings { get; set; }
         public int NumberOfFollowers { get; set; }
         public int NumberOfPosts { get; set; }
+        
 
         public class InputModel
         {
             public string FirstName { get; set; }
             public string InputImagePath { get; set; }
+            public string About { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -75,6 +77,7 @@ namespace BallerScout.Areas.Identity.Pages.Account.Manage
             {
                 FirstName = user.FirstName,
                 InputImagePath = user.ImgURL,
+                About = user.About
             };
         }
 
@@ -105,8 +108,12 @@ namespace BallerScout.Areas.Identity.Pages.Account.Manage
             }
 
             user.FirstName = Input.FirstName;
-            _uploadImageService.UploadProfileImage(file);
-            user.ImgURL = file.FileName;
+            user.About = Input.About;
+            if(file != null)
+            {
+                _uploadImageService.UploadProfileImage(file);
+                user.ImgURL = file.FileName;
+            }
 
             var allUserPosts = _postService.GetListOfPostsByUserId(user.Id);
             foreach(var post in allUserPosts)

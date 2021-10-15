@@ -4,73 +4,45 @@
     ViewData["Title"] = "DeleteExperience";
 }
 
-<h1>DeleteExperience</h1>
+<div class="row section-bgc border-section">
+    <div class="col-12">
+        <span class="section-description ml-3">DeleteExperience</span>
+    </div>
+    <div class="col-12">
+        <span class="text-warning ml-3 post-fontSize">Are you sure you want to delete this?</span>
+    </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Game</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SeasonYearString)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SeasonYearString)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DatePlayed)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DatePlayed)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Club)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Club)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VersusClub)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VersusClub)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GoalsScored)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GoalsScored)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Assists)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Assists)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RedCards)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RedCards)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YellowCards)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YellowCards)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlayedMinutes)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlayedMinutes)
-        </dd>
-    </dl>
-    
-    <form asp-action="DeleteExperience">
-        <input type="hidden" asp-for="GameId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    <div class="col-12 post-frame mb-2">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center"><i class="fas fa-calendar-alt"></i></th>
+                    <th class="text-center"><i class="fas fa-flag"></i></th>
+                    <th class="text-center"><i class="fas fa-stopwatch"></i></th>
+                    <th class="text-center"><i class="fas fa-arrows-alt"></i></th>
+                    <th class="text-center"><i class="far fa-flag"></i></th>
+                    <th class="text-center"><i class="fas fa-futbol"></i></th>
+                    <th class="text-center"><i class="fas fa-font"></i></th>
+                    <th class="text-center"><i class="fas fa-stop text-warning"></i></th>
+                    <th class="text-center"><i class="fas fa-stop text-danger"></i></th>
+                </tr>
+            </thead>
+            <tr>
+                <td class="text-center">@Model.DatePlayedString</td>
+                <td class="text-center">@Model.Club</td>
+                <td class="text-center">@Model.PlayedMinutes</td>
+                <td class="text-center">@Model.PositionPlayed</td>
+                <td class="text-center">@Model.VersusClub</td>
+                <td class="text-center">@Model.GoalsScored</td>
+                <td class="text-center">@Model.Assists</td>
+                <td class="text-center">@Model.YellowCards</td>
+                <td class="text-center">@Model.RedCards</td>
+            </tr>               
+        </table>       
+        <form asp-action="DeleteExperience mt-2 mb-2">
+            <input type="hidden" asp-for="GameId" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a asp-action="Index">Back to List</a>
+        </form>
+    </div>
 </div>

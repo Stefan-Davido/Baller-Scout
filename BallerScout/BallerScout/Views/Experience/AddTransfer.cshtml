@@ -4,44 +4,43 @@
     ViewData["Title"] = "AddTransfer";
 }
 
-<h1>AddTransfer</h1>
-
-<h4>PlayerHistory</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AddTransfer">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FromClub" class="control-label"></label>
-                <input asp-for="FromClub" class="form-control" value="@Html.ViewBag.ClubName" disabled="disabled" />
-                <span asp-validation-for="FromClub" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ToClub" class="control-label"></label>
-                <input asp-for="ToClub" class="form-control" />
-                <span asp-validation-for="ToClub" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ContractType" class="control-label"></label>
-                <input asp-for="ContractType"  class="form-control" />
-                <span asp-validation-for="ContractType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TransferDate" class="control-label"></label>
-                <input asp-for="TransferDate" type="date" class="form-control" />
-                <span asp-validation-for="TransferDate" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="row section-bgc border-section">
+    <div class="col-12 border-bottom">
+        <h1 class="section-description ml-3">Add Transfer</h1>
     </div>
-</div>
+    <div class="col-12 ">
+        <div class="col-12 post-frame mb-2">
+            <form asp-action="AddTransfer">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="FromClub" class="control-label"></label>
+                    <input asp-for="FromClub" class="form-control" value="@Html.ViewBag.ClubName" disabled="disabled" />
+                    <span asp-validation-for="FromClub" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ToClub" class="control-label"></label>
+                    <input asp-for="ToClub" class="form-control" />
+                    <span asp-validation-for="ToClub" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="ContractType" class="control-label"></label>
+                    <select asp-for="ContractType" class="form-control" asp-items="ViewBag.TransferType"></select>
+                    <input asp-for="ContractType" hidden class="form-control" />
+                    <span asp-validation-for="ContractType" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TransferDate" class="control-label"></label>
+                    <input asp-for="TransferDate" type="date" class="form-control" />
+                    <span asp-validation-for="TransferDate" class="text-danger"></span>
+                </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <a asp-action="Index" class="ml-3">Back to List</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 @section Scripts {

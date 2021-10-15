@@ -13,117 +13,123 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h4>@ViewData["Title"]</h4>
+<h4 class="section-description ml-2">@ViewData["Title"]</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
-<div class="row">
-    <div class="col-md-8">
+<div class="row post-frame mb-2 p-0">
+    <div class="col-md-12 m-0">
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-6 ">
                     @if (Model.ImagePath == null)
                     {
-                        <img src="~/ProfilePhotos/empty-profile-picture.png" class="img-thumbnail" />
+                        <img src="~/ProfilePhotos/empty-profile-picture.png" class="img-thumbnail " />
                     }
                     else
                     {
-                        <img src="~/ProfilePhotos/@Model.ImagePath" class="img-thumbnail rounded" />
+                        <img src="~/ProfilePhotos/@Model.ImagePath" class="img-thumbnail rounded " />
                     }
                 </div>
-            </div>
-            <div class="row form-group">
-                <label asp-for="Input.FirstName"></label>
-                <input asp-for="Input.FirstName" class="form-control" />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-            </div>
-            <div class="row">
-                <div class="col-4 form-group">
-                    <a asp-action="AllFollowings" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)">
-                        <label>Following &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowings)
-                    </a>
+                <div class=" col-md-6 form-group">
+                    <div class="row mt-3">
+                        <div class="col-4 form-group">
+                            <a asp-action="AllFollowings" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)" class="profile-route-action">
+                                <label>Following &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowings)
+                            </a>
+                        </div>
+                        <div class="col-4 form-group">
+                            <a asp-action="AllFollowers" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)"  class="profile-route-action">
+                                <label>Followers &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowers)
+                            </a>
+                        </div>
+                        <div class="col-4 form-group">
+                            <a asp-action="AllMyPosts" asp-route-id="@UserManager.GetUserId(User)" asp-controller="Post"
+                                class="profile-route-action">@Html.DisplayFor(model => model.NumberOfPosts) posts
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-12">
+                            <label asp-for="Input.FirstName"></label>
+                            <input asp-for="Input.FirstName" class="form-control" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <label asp-for="Input.InputImagePath">Change Profile Photo</label>
+                            <br />
+                            <input class="input-btn form-control" type="file" name="file" />
+                            <span asp-validation-for="Input.InputImagePath" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-4 form-group">
-                    <a asp-action="AllFollowers" asp-controller="User" asp-route-id="@UserManager.GetUserId(User)">
-                        <label>Followers &nbsp;</label>@Html.DisplayFor(model => model.NumberOfFollowers)
-                    </a>
-                </div>
-                <div class="col-4 form-group">
-                    <p>@Html.DisplayFor(model => model.NumberOfPosts) posts</p>
-                    @*<p>posts</p>*@
+            </div>
+            <div class="row ">
+                <div class="col-12">
+                    <label>About</label>
+                    <input type="text" asp-for="Input.About" class="form-control"/>
                 </div>
             </div>
-            <hr />
-            <div class="form-group">
-                <label asp-for="Input.InputImagePath">Change Profile Photo</label>
-                <br />
-                <input class="btn btn-outline-danger" type="file" name="file" />
-                <span asp-validation-for="Input.InputImagePath" class="text-danger"></span>
+            <div class="col-4 p-0">
+                <button id="" type="submit" class="menu-btn mt-2">Save</button>
             </div>
-            <button id="" type="submit" class="btn btn-primary">Save</button>
         </form>
         <hr />
-        <div>
+        <div class="row mb-1">
             @if (Model.SkillsList == null)
             {
-                <div class="text-center">
+                <div class="text-center mb-2">
                     <a asp-action="AddSkills" asp-controller="Skills" class="btn-success btn">Add Skills</a>
                 </div>
             }
-            else if (Model.Position == "GK")
+            else if(Model.Position != "GK")
             {
-                <div class="d-flex">
-                    <div class="col-2 form-group">
-                        <label>Diving</label>
-                        <span class="form-control">@Model.SkillsList.Diving</span>
+                <div class="col-md-6 d-flex col-sm-12 m-0 p-0 mb-2">
+                    <div class="col-md-4 col-4">
+                        <span>Shooting @Html.DisplayFor(model => model.SkillsList.Shooting)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Positioning</label>
-                        <span class="form-control">@Model.SkillsList.Positioning</span>
+                    <div class="col-md-4 col-4">
+                        <span>Dribbling @Html.DisplayFor(model => model.SkillsList.Dribbling)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Reflexes</label>
-                        <span class="form-control">@Model.SkillsList.Reflexes</span>
+                    <div class="col-md-4 col-4">
+                        <span>Pace @Html.DisplayFor(model => model.SkillsList.Pace)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Kicking</label>
-                        <span class="form-control">@Model.SkillsList.Kicking</span>
+                </div>
+                <div class="col-md-6 d-flex col-sm-12  m-0 p-0">
+                    <div class="col-md-4 col-4">
+                        <span>Passing @Html.DisplayFor(model => model.SkillsList.Passing)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Speed</label>
-                        <span class="form-control">@Model.SkillsList.Speed</span>
+                    <div class="col-md-4 col-4">
+                        <span>Physical @Html.DisplayFor(model => model.SkillsList.Physical)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Handling</label>
-                        <span class="form-control">@Model.SkillsList.Handling</span>
+                    <div class="col-md-4 col-4">
+                        <span>Defending @Html.DisplayFor(model => model.SkillsList.Defending)</span>
                     </div>
                 </div>
             }
             else
             {
-                <div class="d-flex">
-                    <div class="col-2 form-group">
-                        <label>Dribbling</label>
-                        <span class="form-control">@Model.SkillsList.Dribbling</span>
+                <div class="col-md-6 d-flex col-sm-12 m-0 p-0 mb-2">
+                    <div class="col-md-4 col-4">
+                        <span>Shooting @Html.DisplayFor(model => model.SkillsList.Diving)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Pace</label>
-                        <span class="form-control">@Model.SkillsList.Pace</span>
+                    <div class="col-md-4 col-4">
+                        <span>Dribbling @Html.DisplayFor(model => model.SkillsList.Handling)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Passing</label>
-                        <span class="form-control">@Model.SkillsList.Passing</span>
+                    <div class="col-md-4 col-4">
+                        <span>Pace @Html.DisplayFor(model => model.SkillsList.Reflexes)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Physical</label>
-                        <span class="form-control">@Model.SkillsList.Physical</span>
+                </div>
+                <div class="col-md-6 d-flex col-sm-12 m-0 p-0">
+                    <div class="col-md-4 col-4">
+                        <span>Passing @Html.DisplayFor(model => model.SkillsList.Speed)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Shooting</label>
-                        <span class="form-control">@Model.SkillsList.Shooting</span>
+                    <div class="col-md-4 col-4">
+                        <span>Physical @Html.DisplayFor(model => model.SkillsList.Positioning)</span>
                     </div>
-                    <div class="col-2 form-group">
-                        <label>Defending</label>
-                        <span class="form-control">@Model.SkillsList.Defending</span>
+                    <div class="col-md-4 col-4">
+                        <span>Defending @Html.DisplayFor(model => model.SkillsList.Kicking)</span>
                     </div>
                 </div>
             }

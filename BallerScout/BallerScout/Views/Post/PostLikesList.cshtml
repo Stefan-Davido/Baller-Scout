@@ -5,42 +5,45 @@
 
 @model IEnumerable<BallerScout.Entities.ApplicationUser>
 
-<div class="row">
+<div class="row border-section section-bgc">
     @if (Model.Count() < 1)
     {
-        <h2>This Post Doesnt Have Likes Yet</h2>
+        <h2 class="ml-3 section-description">This Post Doesnt Have Likes Yet</h2>
     }
     else
     {
-    <div class="col-md-12">
         @foreach (var user in Model)
         {
-            var userId = user.Id;
-            var userProfile = await UserManager.FindByIdAsync(userId);
-            var singInUser = await UserManager.GetUserAsync(User);
-            <div class="row">
-                <div class="col-md-4">
+            <div class="col-12 d-flex post-user-section">
+                <div class="col-2 text-center">
                     <img src="~/ProfilePhotos/@user.ImgURL" class="profile-img" />
                 </div>
-                <div class="col-md-8">
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @if (UserManager.GetUserId(User) == user.Id)
+                <div class="col-10 pl-3rem-sm">
+                    <div class="row">
+                        @if (SignInManager.IsSignedIn(User))
                         {
-                            <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => user.UserName)</a>
+                            if (UserManager.GetUserId(User) == user.Id)
+                            {
+                                <a asp-area="Identity" asp-page="/Account/Manage/Index">@Html.DisplayFor(model => user.UserName)</a>
+                            }
+                            else
+                            {
+                                <a asp-action="UserProfile" asp-controller="User" asp-route-id="@user.Id">@Html.DisplayFor(model => user.UserName)</a>
+                            }
                         }
                         else
                         {
-                            <a asp-action="UserProfile" asp-controller="User" asp-route-id="@user.Id">@Html.DisplayFor(model => user.UserName)</a>
+                            <a asp-action="UserProfile" asp-controller="User" asp-route-id="@user.Id"> @Html.DisplayFor(model => user.UserName)</a>
                         }
-                    }
-                    else
+                    </div>
+                    @if (user.Position != null && user.Club != null)
                     {
-                        <a asp-page="/Account/Login" asp-area="Identity">@Html.DisplayFor(model => user.UserName)</a>
+                        <div class="row">
+                            <span>@Html.DisplayFor(model => user.Position) in @Html.DisplayFor(model => user.Club)</span>
+                        </div>
                     }
                 </div>
             </div>
         }
-    </div>
     }
 </div> 

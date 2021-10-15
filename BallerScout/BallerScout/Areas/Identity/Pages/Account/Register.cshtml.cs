@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using BallerScout.Service.ServiceInterfaces;
 using System.IO;
+using NETCore.MailKit.Core;
 
 namespace BallerScout.Areas.Identity.Pages.Account
 {
@@ -28,19 +29,25 @@ namespace BallerScout.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly IUploadImageService _uploadImageService;
+        //private readonly IEmailService _mailKitService;
+        private readonly IMyEmailService _myEmailService;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            IUploadImageService uploadImageService)
+            //IEmailService mailKitService,
+            IUploadImageService uploadImageService,
+            IMyEmailService myEmailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            //_mailKitService = mailKitService;
             _uploadImageService = uploadImageService;
+            _myEmailService = myEmailService;
         }
 
         [BindProperty]
@@ -71,6 +78,7 @@ namespace BallerScout.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             public string FirstName{ get; set; }
+            public string LastName{ get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -88,7 +96,14 @@ namespace BallerScout.Areas.Identity.Pages.Account
                 if (ModelState.IsValid)
                 {
                     _uploadImageService.UploadProfileImage(file);
-                    var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, ImgURL = file.FileName };
+                    var user = new ApplicationUser {
+                        UserName = Input.FirstName + Input.LastName,
+                        Email = Input.Email,
+                        FirstName = Input.FirstName,
+                        LastName = Input.LastName,
+                        ImgURL = file.FileName
+                    };
+
                     var result = await _userManager.CreateAsync(user, Input.Password);
                     if (result.Succeeded)
                     {
@@ -102,18 +117,11 @@ namespace BallerScout.Areas.Identity.Pages.Account
                             values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                             protocol: Request.Scheme);
 
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                        var link = Url.ActionLink("VerifyEmail", "Home", new { userId = user.Id, code }, Request.Scheme, Request.Host.ToString());
+                        _myEmailService.SendEmail(user.Email, link);
 
-                        if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                        {
-                            return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                        }
-                        else
-                        {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return LocalRedirect(returnUrl);
-                        }
+                        return RedirectToAction("CheckEmail", "Home");
+
                     }
                     foreach (var error in result.Errors)
                     {

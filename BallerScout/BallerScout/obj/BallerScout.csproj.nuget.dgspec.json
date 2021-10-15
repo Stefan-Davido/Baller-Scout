@@ -52,6 +52,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.14.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.15, )"
@@ -91,6 +95,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "SmtpServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "morelinq": {
               "target": "Package",
@@ -160,6 +172,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.14.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.15, )"
@@ -199,6 +215,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "SmtpServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "morelinq": {
               "target": "Package",
@@ -275,6 +299,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.14.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.15, )"
@@ -314,6 +342,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "SmtpServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "morelinq": {
               "target": "Package",
@@ -390,6 +426,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.14.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.15, )"
@@ -429,6 +469,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "SmtpServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             }
           },
           "imports": [
@@ -507,6 +555,10 @@
               "target": "Package",
               "version": "[8.1.1, )"
             },
+            "MailKit": {
+              "target": "Package",
+              "version": "[2.14.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[3.1.15, )"
@@ -546,6 +598,14 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[3.1.5, )"
+            },
+            "NETCore.MailKit": {
+              "target": "Package",
+              "version": "[2.0.3, )"
+            },
+            "SmtpServer": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "morelinq": {
               "target": "Package",

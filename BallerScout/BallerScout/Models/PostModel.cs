@@ -19,6 +19,8 @@ namespace BallerScout.Models
         public DateTime DatePosted { get; set; }
         public string DatePostedString { get; set; }
         public int NumberOfLikes { get; set; }
+        public string UserClub { get; set; }
+        public string UserPosition { get; set; }
 
     }
 }

@@ -16,6 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,9 +68,9 @@ namespace BallerScout
             services.AddTransient<IGameService, GameService>();
             services.AddTransient<IDateConverterService, DateConverterService>();
             services.AddTransient<IDropDownsService, DropDownsService>();
+            services.AddTransient<IMyEmailService, MyEmailService>();
 
             services.AddAutoMapper(typeof(MapperProfile));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

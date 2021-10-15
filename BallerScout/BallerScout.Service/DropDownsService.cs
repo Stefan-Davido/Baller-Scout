@@ -14,13 +14,16 @@ namespace BallerScout.Service
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IPlayerHistoryService _playerHistoryService;
 
         public DropDownsService(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IPlayerHistoryService playerHistoryService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _playerHistoryService = playerHistoryService;
         }
 
         public async Task<List<SelectListItem>> Foot(string userId)
@@ -69,6 +72,64 @@ namespace BallerScout.Service
             }
 
             return footSelectList;
+        }
+
+        public List<SelectListItem> TransferType(int transferId)
+        {
+            var playerHistory = _playerHistoryService.GetPlayerHistoryById(transferId);
+            List<string> chooseTransferType = new List<string>();
+            chooseTransferType.Add("Free");
+            chooseTransferType.Add("Official");
+            chooseTransferType.Add("Loan");
+            var counter = 0;
+
+            List<SelectListItem> transferList = new List<SelectListItem>();
+
+            foreach (var transfer in chooseTransferType)
+            {
+                if (playerHistory == null)
+                {
+                    transferList.Add
+                    (
+                        new SelectListItem
+                        {
+                            Text = transfer,
+                            Value = transfer,
+                        }
+                    );
+                }
+                else if(transfer == playerHistory.ContractType && playerHistory != null )
+                {
+                    transferList.Add
+                    (
+                        new SelectListItem
+                        {
+                            Text = transfer,
+                            Value = transfer,
+                            Selected = true
+                        }
+                    );
+                    counter++;
+                }
+                else
+                {
+                    transferList.Add
+                    (
+                        new SelectListItem
+                        {
+                            Text = transfer,
+                            Value = transfer,
+                        }
+                    );
+                }
+            }
+
+            if (counter == 0)
+            {
+                transferList.Add(new SelectListItem() { Text = "Select Transfer Type:", Value = "0", Selected = true });
+            }
+
+            return transferList;
         }
 
         public async Task<List<SelectListItem>> Postition(string userId)
